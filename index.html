@@ -415,25 +415,31 @@ img, video, iframe {
         </div>
     </section>
 
-    <!-- لوحة تحكم سريعة لإضافة منتجات جديدة -->
-    <div class="admin-panel">
-        <h2><i class="fas fa-plus-circle"></i> إضافة هودي جديد (لإدارة المتجر)</h2>
-        <form id="addProductForm">
-            <div class="form-group">
-                <label>اسم الهودي:</label>
-                <input type="text" id="pName" placeholder="مثال: Zont Oversized Black Hoodie" required>
-            </div>
-            <div class="form-group">
-                <label>السعر (مثال: 950 EGP):</label>
-                <input type="text" id="pPrice" placeholder="950 EGP" required>
-            </div>
-            <div class="form-group">
-                <label>رابط صورة الهودي (رابط مباشر للصورة):</label>
-                <input type="url" id="pImage" placeholder="https://example.com/z-index.jpg" required>
-            </div>
-            <button type="submit" class="btn">إضافة المنتج للموقع</button>
-        </form>
-    </div>
+   <!-- لوحة تحكم سريعة لإضافة منتجات جديدة -->
+<div class="admin-panel">
+    <h2><i class="fas fa-plus-circle"></i> إضافة هودي جديد (لإدارة المتجر)</h2>
+    <form id="addProductForm">
+        <div class="form-group">
+            <label>اسم الهودي:</label>
+            <input type="text" id="pName" placeholder="مثال: Zont Oversized Black Hoodie" required>
+        </div>
+        <div class="form-group">
+            <label>السعر (مثال: 950 EGP):</label>
+            <input type="text" id="pPrice" placeholder="950 EGP" required>
+        </div>
+        <div class="form-group">
+            <label>اختر صورة الهودي من المعرض:</label>
+            <!-- تم تغيير النوع إلى file مع accept="image/*" لفتح معرض الصور مباشرة على الهاتف -->
+            <input type="file" id="pImage" accept="image/*" required>
+        </div>
+        <div class="form-group">
+            <label>كلمة مرور الإدارة:</label>
+            <input type="password" id="adminPass" placeholder="أدخل كلمة المرور للإضافة" required>
+        </div>
+        <button type="submit" class="btn">إضافة المنتج للموقع</button>
+    </form>
+</div>
+
 
     <!-- قسم المنتجات -->
     <section class="products-section" id="products">
@@ -511,31 +517,44 @@ img, video, iframe {
 
     <!-- جافاسكريبت لإضافة المنتجات فورياً -->
     <script>
-        const form = document.getElementById('addProductForm');
-        const grid = document.getElementById('productsGrid');
+      document.getElementById('addProductForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
-            const image = document.getElementById('pImage').value;
+    // 1. تحديد كلمة المرور الخاصة بك (غيرها لأي رقم أو كلمة تريدها)
+    const SECRET_PASSWORD = "ZONT2026"; 
+    const enteredPass = document.getElementById('adminPass').value;
 
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card';
-            productCard.innerHTML = `
-                <img src="${image}" alt="${name}" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-title">${name}</h3>
-                    <div class="product-price">${price}</div>
-                    <a href="https://wa.me/201012805508س?text=أريد%20طلب%20${encodeURIComponent(name)}" target="_blank" class="btn">اطلب عبر واتساب</a>
-                </div>
-            `;
+    // التحقق من كلمة المرور قبل فعل أي شيء
+    if (enteredPass !== SECRET_PASSWORD) {
+        alert("❌ كلمة المرور غير صحيحة! لا تملك صلاحية إضافة منتجات.");
+        return;
+    }
 
-            grid.prepend(productCard);
-            form.reset();
-            alert('تمت إضافة الهودي بنجاح إلى المتجر!');
-        });
+    // 2. جلب البيانات والصورة من المعرض
+    const name = document.getElementById('pName').value;
+    const price = document.getElementById('pPrice').value;
+    const imageInput = document.getElementById('pImage');
+    const file = imageInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        
+        // عندما يتم قراءة الصورة من الهاتف بنجاح
+        reader.onload = function(event) {
+            const imageDataUrl = event.target.result; // هذا هو رابط الصورة الجاهز للعرض
+
+            // ---------------------------------------------------------
+            // ضع هنا الدالة الخاصة بك التي تضيف المنتج للشبكة (Grid)
+            // مثال: addProductToGrid(name, price, imageDataUrl);
+            // ---------------------------------------------------------
+
+            alert("✅ تم إضافة الهودي بنجاح!");
+            document.getElementById('addProductForm').reset(); // تفريغ الخانات بعد الإضافة
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
     </script>
 </body>
 </html>
