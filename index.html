@@ -10,6 +10,154 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* أيقونة السلة العائمة في الهيدر */
+.cart-btn {
+    position: relative;
+    background: var(--accent-color);
+    color: #000 !important;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 14px !important;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cart-btn:hover {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+/* نافذة السلة وبيانات العميل */
+.cart-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.cart-modal.active {
+    display: flex;
+}
+
+.cart-box {
+    background: var(--card-bg);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 25px;
+    position: relative;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+}
+
+.cart-header h3 {
+    color: var(--accent-color);
+    font-size: 20px;
+}
+
+.close-cart {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    border: 1px solid var(--border-color);
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.cart-item-info h4 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.cart-item-info span {
+    color: var(--accent-color);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qty-btn {
+    background: #242424;
+    color: #fff;
+    border: 1px solid var(--border-color);
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.remove-item-btn {
+    background: #8b1e1e;
+    color: #fff;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.cart-total {
+    text-align: center;
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--accent-color);
+    margin: 15px 0;
+    padding: 10px;
+    background: #111;
+    border-radius: 6px;
+}
+
+.customer-form .form-group input,
+.customer-form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background: #222;
+    border: 1px solid var(--border-color);
+    color: #fff;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.submit-order-btn {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+}
         :root {
             --bg-color: #0b0b0b;
             --card-bg: #161616;
@@ -373,6 +521,64 @@ img, video, iframe {
     font-size: 16px;
   }
 }
+/* إصلاح تداخل عناصر كارت المنتج وتنسيق الصور والأزرار */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    align-items: stretch;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px;
+    overflow: hidden;
+    gap: 12px;
+}
+
+.product-card img {
+    width: 100%;
+    max-width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+.product-card .product-info {
+    width: 100%;
+    padding: 10px 5px 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-card .product-title {
+    margin-bottom: 0;
+    font-size: 17px;
+}
+
+.product-card .product-price {
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.product-card .add-to-cart-btn {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
     </style>
 </head>
 <body>
@@ -384,6 +590,10 @@ img, video, iframe {
             <a href="tel:+201012805508" title="اتصل بنا"><i class="fas fa-phone"></i></a>
             <a href="https://wa.me/201012805508" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
             <a href="https://www.instagram.com/zont_store1?vrfl=MWtxZnk0aTZ6Zzd3bw==" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
+            <a href="#" id="openCartBtn" class="cart-btn" title="سلة المشتريات">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="cartCount">0</span>
+</a>
             
         </div>
     </header>
@@ -441,66 +651,80 @@ img, video, iframe {
 </div>
 
 
-    <!-- قسم المنتجات -->
-    <section class="products-section" id="products">
+
+     <!-- قسم المنتجات -->
+<section class="products-section" id="products"></section>
     <h2 class="section-title">تشكيلة <span>الهوديات</span></h2>
     <div class="products-grid" id="productsGrid">
-        <!-- المنتجات الافتراضية -->
+
         <div class="product-card">
-            <img src="images/zont 2.jpg.jpeg" alt="هودي" class="...">
+            <img src="images/zont 2.jpg.jpeg" alt="راوند زيتي طباعه">
             <div class="product-info">
-                <h3 class="product-title"> راوند زيتي طباعه </h3>
+                <h3 class="product-title">راوند زيتي طباعه</h3>
                 <div class="product-price">450 EGP</div>
-                <a href="https://wa.me/201012805508?text=أريد%20طلب%20هودي%20زيتي%20طباعه%20" target="_blank" class="btn">واتساب</a>
+                <button type="button" class="btn add-to-cart-btn" data-name="راوند زيتي طباعه" data-price="450">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
             </div>
         </div>
 
         <div class="product-card">
-            <img src="images/zont 1.jpg.jpeg" alt="هودي" class="...">
+            <img src="images/zont 1.jpg.jpeg" alt="هودي برجاندي دابل سوسته">
             <div class="product-info">
-                <h3 class="product-title">هودي برجاندي دابل سوسته </h3>
+                <h3 class="product-title">هودي برجاندي دابل سوسته</h3>
                 <div class="product-price">550 EGP</div>
-                <a href="https://wa.me/201012805508?text=أريد%20طلب%20هودي%20برجاندي%20دابل%20سوسته" target="_blank" class="btn">واتساب</a>
+                <button type="button" class="btn add-to-cart-btn" data-name="هودي برجاندي دابل سوسته" data-price="550">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
             </div>
         </div>
 
         <div class="product-card">
-            <img src="images/zont 10.jpg.jpeg" alt="هودي" class="...">
+            <img src="images/zont 10.jpg.jpeg" alt="راوند برجاندي ساده">
             <div class="product-info">
-                <h3 class="product-title">راوند برجاندي ساده </h3>
+                <h3 class="product-title">راوند برجاندي ساده</h3>
                 <div class="product-price">450 EGP</div>
-                <a href="https://wa.me/201012805508?text=أريد%20طلب%20راوند%20برجاندي%20ساده%20" target="_blank" class="btn">واتساب</a>
+                <button type="button" class="btn add-to-cart-btn" data-name="راوند برجاندي ساده" data-price="450">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
             </div>
         </div>
 
         <div class="product-card">
-            <img src="images/zont 3.jpg.jpeg" alt="هودي" class="...">
+            <img src="images/zont 3.jpg.jpeg" alt="راوند اسود طباعه">
             <div class="product-info">
                 <h3 class="product-title">راوند اسود طباعه</h3>
                 <div class="product-price">450 EGP</div>
-                <a href="https://wa.me/201012805508?text=أريد%20طلب%20راوند%20اسود%20طباعه%20" target="_blank" class="btn">واتساب</a>
+                <button type="button" class="btn add-to-cart-btn" data-name="راوند اسود طباعه" data-price="450">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
             </div>
         </div>
 
         <div class="product-card">
-            <img src="images/zont z.jpg.jpeg" alt="هودي" class="...">
+            <img src="images/zont z.jpg.jpeg" alt="راوند زيتي ساده">
             <div class="product-info">
                 <h3 class="product-title">راوند زيتي ساده</h3>
                 <div class="product-price">450 EGP</div>
-                <a href="https://wa.me/201012805508?text=أريد%20طلب%20روند%20زيتي%20ساده%20" target="_blank" class="btn">واتساب</a>
+                <button type="button" class="btn add-to-cart-btn" data-name="راوند زيتي ساده" data-price="450">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
             </div>
-        </div> 
+        </div>
 
         <div class="product-card">
-            <img src="images/zont s.jpg.jpeg" alt="هودي" class="...">
+            <img src="images/zont s.jpg.jpeg" alt="راوند اسود ساده">
             <div class="product-info">
                 <h3 class="product-title">راوند اسود ساده</h3>
                 <div class="product-price">450 EGP</div>
-                <a href="https://wa.me/201012805508?text=أريد%20طلب%20راوند%20اسود%20ساده%20س" target="_blank" class="btn">واتساب</a>
+                <button type="button" class="btn add-to-cart-btn" data-name="راوند اسود ساده" data-price="450">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
             </div>
         </div>
-    </div> <!-- تم نقل إغلاق الشبكة إلى هنا لتشمل كل البطاقات -->
-</section>
+
+    </div>
+   </section>
     <!-- الفوتر والتواصل -->
     <footer>
         <div class="social-links">
@@ -512,6 +736,44 @@ img, video, iframe {
         </div>
         <p class="copyright">جميع الحقوق محفوظة &copy; 2026 Zont Store</p>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- نافذة سلة المشتريات وبيانات العميل -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-box">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> سلة المشتريات</h3>
+            <button type="button" class="close-cart" id="closeCartBtn">&times;</button>
+        </div>
+
+        <div id="cartItemsContainer"></div>
+
+        <div class="cart-total" id="cartTotalBox">
+            الإجمالي: 0 EGP
+        </div>
+
+        <form id="checkoutForm" class="customer-form">
+            <h4 style="color: var(--accent-color); margin-bottom: 12px;">بيانات التوصيل:</h4>
+
+            <div class="form-group">
+                <label>الاسم بالكامل:</label>
+                <input type="text" id="custName" placeholder="اكتب اسمك الثلاثي" required>
+            </div>
+
+            <div class="form-group">
+                <label>رقم الهاتف (واتساب):</label>
+                <input type="tel" id="custPhone" placeholder="مثال: 01012345678" required>
+            </div>
+
+            <div class="form-group">
+                <label>العنوان بالتفصيل (المحافظة - المنطقة - الشارع):</label>
+                <textarea id="custAddress" rows="3" placeholder="اكتب عنوانك بدقة لتسهيل التوصيل" required></textarea>
+            </div>
+
+            <button type="submit" class="btn submit-order-btn">
+                <i class="fab fa-whatsapp"></i> إتمام الطلب وإرساله عبر واتساب
+            </button>
+        </form>
+    </div>
+</div>
     </footer>
     
 
@@ -554,6 +816,163 @@ img, video, iframe {
 
         reader.readAsDataURL(file);
     }
+});
+// مصفوفة السلة
+let cart = [];
+
+const cartModal = document.getElementById('cartModal');
+const openCartBtn = document.getElementById('openCartBtn');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const cartItemsContainer = document.getElementById('cartItemsContainer');
+const cartCountEl = document.getElementById('cartCount');
+const cartTotalBox = document.getElementById('cartTotalBox');
+const checkoutForm = document.getElementById('checkoutForm');
+
+// فتح وإغلاق نافذة السلة
+openCartBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    renderCart();
+    cartModal.classList.add('active');
+});
+
+closeCartBtn.addEventListener('click', function() {
+    cartModal.classList.remove('active');
+});
+
+cartModal.addEventListener('click', function(e) {
+    if (e.target === cartModal) {
+        cartModal.classList.remove('active');
+    }
+});
+
+// ربط أزرار "أضف إلى السلة" بالمنتجات
+document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const name = this.getAttribute('data-name');
+        const price = parseFloat(this.getAttribute('data-price')) || 0;
+        addToCart(name, price);
+    });
+});
+
+// دالة إضافة منتج للسلة (يمكنك استدعاؤها أيضاً من لوحة إضافة المنتجات)
+function addToCart(name, price) {
+    const cleanPrice = typeof price === 'number' ? price : (parseFloat(String(price).replace(/[^\d.]/g, '')) || 0);
+    const existingItem = cart.find(item => item.name === name);
+
+    if (existingItem) {
+        existingItem.qty += 1;
+    } else {
+        cart.push({ name: name, price: cleanPrice, qty: 1 });
+    }
+
+    updateCartBadge();
+    alert('🛒 تم إضافة "' + name + '" إلى السلة بنجاح!');
+}
+
+// تحديث عداد السلة في الهيدر
+function updateCartBadge() {
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    cartCountEl.textContent = totalQty;
+}
+
+// عرض محتويات السلة وحساب الإجمالي
+function renderCart() {
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 15px;">السلة فارغة حالياً.</p>';
+        cartTotalBox.textContent = 'الإجمالي: 0 EGP';
+        return;
+    }
+
+    let html = '';
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        const itemSubtotal = item.price * item.qty;
+        total += itemSubtotal;
+
+        html += `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <h4>${item.name}</h4>
+                    <span>${item.price} EGP × ${item.qty} = ${itemSubtotal} EGP</span>
+                </div>
+                <div class="qty-controls">
+                    <button type="button" class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                    <span>${item.qty}</span>
+                    <button type="button" class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                    <button type="button" class="remove-item-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        `;
+    });
+
+    cartItemsContainer.innerHTML = html;
+    cartTotalBox.textContent = 'الإجمالي: ' + total + ' EGP';
+}
+
+// تعديل الكمية
+function changeQty(index, delta) {
+    if (!cart[index]) return;
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+    }
+    updateCartBadge();
+    renderCart();
+}
+
+// حذف منتج من السلة
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartBadge();
+    renderCart();
+}
+
+// إرسال الطلب بالكامل إلى واتساب
+checkoutForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (cart.length === 0) {
+        alert('⚠️ من فضلك أضف منتجاً واحداً على الأقل إلى السلة قبل إتمام الطلب.');
+        return;
+    }
+
+    const custName = document.getElementById('custName').value.trim();
+    const custPhone = document.getElementById('custPhone').value.trim();
+    const custAddress = document.getElementById('custAddress').value.trim();
+
+    let itemsText = '';
+    let grandTotal = 0;
+
+    cart.forEach((item, i) => {
+        const sub = item.price * item.qty;
+        grandTotal += sub;
+        itemsText += `${i + 1}. ${item.name} | الكمية: ${item.qty} | السعر: ${sub} EGP%0A`;
+    });
+
+    const whatsappNumber = '201012805508';
+    const message =
+        `🛍️ *طلب جديد من Zont Store*%0A` +
+        `----------------------------%0A` +
+        `👤 *الاسم:* ${encodeURIComponent(custName)}%0A` +
+        `📞 *رقم الهاتف:* ${encodeURIComponent(custPhone)}%0A` +
+        `📍 *العنوان:* ${encodeURIComponent(custAddress)}%0A` +
+        `----------------------------%0A` +
+        `🛒 *المنتجات المطلوبة:*%0A${itemsText}` +
+        `----------------------------%0A` +
+        `💰 *الإجمالي:* ${grandTotal} EGP`;
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+    window.location.href = whatsappUrl;
+
+
+    // تفريغ السلة والنموذج بعد الإرسال
+    cart = [];
+    updateCartBadge();
+    renderCart();
+    checkoutForm.reset();
+    cartModal.classList.remove('active');
 });
     </script>
 </body>
