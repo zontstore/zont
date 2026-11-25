@@ -683,32 +683,52 @@
             padding-top: 20px;
         }
 
+        /* ضبط عرض التليفون: كل هودي في صف لوحده بالطول ومربع مريح */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 28px;
             }
+            .products-section {
+                max-width: 460px;
+                padding: 35px 14px 20px;
+            }
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
             .product-card {
-                padding: 10px;
+                padding: 16px;
+                gap: 12px;
+                border-radius: 14px;
             }
             .product-card img {
-                height: 155px;
+                height: 290px;
             }
             .product-card .product-title {
-                font-size: 13px;
+                font-size: 18px;
             }
             .product-card .product-price {
-                font-size: 14px;
+                font-size: 19px;
+            }
+            .card-cart-controls {
+                gap: 10px;
+                margin-top: 6px;
+            }
+            .card-qty-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
+            }
+            .card-qty-count {
+                min-width: 26px;
+                font-size: 15px;
             }
             .product-card .add-to-cart-btn {
-                padding: 6px 8px !important;
-                font-size: 11px !important;
+                padding: 10px 14px !important;
+                font-size: 14px !important;
             }
             .admin-panel {
-                margin: 20px 4% 40px;
+                margin: 20px 14px 40px;
                 padding: 20px;
             }
         }
@@ -961,8 +981,8 @@
             <a href="tel:+201012805508" title="اتصل بنا"><i class="fas fa-phone"></i></a>
             <a href="https://wa.me/201012805508" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
             <a href="https://www.instagram.com/zont_store1?vrfl=MWtxZnk0aTZ6Zzd3bw==" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/share/1EsJD3FG2t/" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.tiktok.com/@zont.store.1?_r=1&_t=ZS-9Bi7jy8qAJm" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
         </div>
         <div class="copyright">
             جميع الحقوق محفوظة &copy; 2026 Zont Store
@@ -1461,6 +1481,6 @@
         attachCartButtonListeners();
         loadSavedProducts();
         syncCardQtyCounters();
-    </SCRIPT>
-    </body>
-    </html>
+    </script>
+</body>
+</html>
