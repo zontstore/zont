@@ -4,164 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zont Store | فخامة الشتاء</title>
-    <!-- خط Google Fonts عصري -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome الأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* أيقونة السلة العائمة في الهيدر */
-.cart-btn {
-    position: relative;
-    background: var(--accent-color);
-    color: #000 !important;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 14px !important;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.cart-btn:hover {
-    background: #fff !important;
-    color: #000 !important;
-}
-
-/* نافذة السلة وبيانات العميل */
-.cart-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    overflow-y: auto;
-}
-
-.cart-modal.active {
-    display: flex;
-}
-
-.cart-box {
-    background: var(--card-bg);
-    border: 1px solid var(--accent-color);
-    border-radius: 10px;
-    width: 100%;
-    max-width: 520px;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 25px;
-    position: relative;
-}
-
-.cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
-    margin-bottom: 18px;
-}
-
-.cart-header h3 {
-    color: var(--accent-color);
-    font-size: 20px;
-}
-
-.close-cart {
-    background: none;
-    border: none;
-    color: var(--text-main);
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #111;
-    border: 1px solid var(--border-color);
-    padding: 10px 12px;
-    border-radius: 6px;
-    margin-bottom: 10px;
-    gap: 10px;
-}
-
-.cart-item-info h4 {
-    font-size: 15px;
-    margin-bottom: 4px;
-}
-
-.cart-item-info span {
-    color: var(--accent-color);
-    font-size: 14px;
-    font-weight: 700;
-}
-
-.qty-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.qty-btn {
-    background: #242424;
-    color: #fff;
-    border: 1px solid var(--border-color);
-    width: 26px;
-    height: 26px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.remove-item-btn {
-    background: #8b1e1e;
-    color: #fff;
-    border: none;
-    padding: 5px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.cart-total {
-    text-align: center;
-    font-size: 19px;
-    font-weight: 900;
-    color: var(--accent-color);
-    margin: 15px 0;
-    padding: 10px;
-    background: #111;
-    border-radius: 6px;
-}
-
-.customer-form .form-group input,
-.customer-form .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    background: #222;
-    border: 1px solid var(--border-color);
-    color: #fff;
-    border-radius: 4px;
-    resize: vertical;
-}
-
-.submit-order-btn {
-    width: 100%;
-    margin-top: 10px;
-    font-size: 16px;
-}
         :root {
             --bg-color: #0b0b0b;
             --card-bg: #161616;
-            --accent-color: #d4af37; /* لون ذهبي فاخر */
+            --accent-color: #d4af37;
             --text-main: #f5f5f5;
             --text-muted: #aaaaaa;
             --border-color: #262626;
@@ -178,6 +27,14 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* الهيدر */
@@ -192,28 +49,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
+            gap: 10px;
+            padding: 12px 4%;
         }
 
         .logo {
-            font-size: 26px;
+            font-size: 20px;
             font-weight: 900;
             color: var(--accent-color);
             letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .social-icons-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: nowrap;
         }
 
         .social-icons-header a {
             color: var(--text-main);
-            font-size: 18px;
-            margin-left: 15px;
+            font-size: 16px;
             transition: 0.3s;
+            text-decoration: none;
         }
 
         .social-icons-header a:hover {
             color: var(--accent-color);
         }
 
-        /* قسم الواجهة الرئيسي (Hero) */
+        .cart-btn {
+            position: relative;
+            background: var(--accent-color);
+            color: #000 !important;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px !important;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .cart-btn:hover,
+        .cart-btn.pulse {
+            background: #fff !important;
+            color: #000 !important;
+            transform: scale(1.06);
+        }
+
+        /* الواجهة الرئيسية */
         .hero {
             height: 85vh;
             display: flex;
@@ -221,12 +110,10 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('./images/zont\ 200.jpg.jpeg') no-repeat center / cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('./images/zont 200.jpg.jpeg') no-repeat center / cover;
             padding: 0 24px;
             margin-top: 50px;
-    
-        
-}
+        }
 
         .hero h1 {
             font-size: 45px;
@@ -256,6 +143,10 @@
             cursor: pointer;
             text-decoration: none;
             transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn:hover {
@@ -263,7 +154,7 @@
             transform: translateY(-2px);
         }
 
-        /* مميزات المتجر */
+        /* مميزات البراند */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -294,13 +185,14 @@
             color: var(--text-muted);
         }
 
-        /* لوحة التحكم السريعة لإضافة المنتجات */
+        /* لوحة التحكم السريعة لإضافة المنتجات (تأتي بعد المنتجات) */
         .admin-panel {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             padding: 30px;
-            margin: 40px 5%;
-            border-radius: 8px;
+            max-width: 1100px;
+            margin: 20px auto 45px;
+            border-radius: 10px;
         }
 
         .admin-panel h2 {
@@ -326,18 +218,19 @@
             border: 1px solid var(--border-color);
             color: #fff;
             border-radius: 4px;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('./images/zont\ 5.jpg.jpeg') no-repeat center / cover;
         }
 
         /* قسم المنتجات */
         .products-section {
-            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 45px 4% 25px;
         }
 
         .section-title {
             text-align: center;
             font-size: 32px;
-            font-weight: 60;
+            font-weight: 900;
             margin-bottom: 40px;
         }
 
@@ -347,89 +240,406 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            align-items: stretch;
         }
 
         .product-card {
-            background: var(--card-bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background: #130101;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 10px;
+            padding: 12px;
             overflow: hidden;
+            gap: 8px;
             transition: 0.3s;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--accent-color);
         }
 
-        .product-image {
-            height: 120px;
-            width: 50%;
-            object-fit: cover;
+        /* زر الحذف الصغير الأحمر بأيقونة السلة في الزاوية العلوية اليسرى للكارت */
+        .card-delete-icon-btn {
+            position: absolute;
+            top: 9px;
+            left: 9px;
+            z-index: 15;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(192, 32, 32, 0.92);
+            color: #fff;
+            border: 1px solid rgba(255, 120, 120, 0.45);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55);
+            transition: transform 0.2s, background 0.2s;
         }
 
-        .product-info {
-            padding: 20px;
+        .card-delete-icon-btn:hover {
+            background: #e62929;
+            transform: scale(1.08);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #0d0d0d;
+        }
+
+        .product-card .product-info {
+            width: 100%;
+            padding: 6px 2px 2px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .product-card .product-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .product-card .product-price {
+            color: var(--accent-color);
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 2px;
+        }
+
+        /* تحكم الكمية والعداد وأزرار الكارت */
+        .card-cart-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            margin-top: 4px;
+        }
+
+        .product-card .add-to-cart-btn {
+            padding: 6px 10px !important;
+            font-size: 12px !important;
+            border-radius: 5px;
+            width: auto !important;
+            flex: 1;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .card-qty-btn {
+            background: #222;
+            color: var(--accent-color);
+            border: 1px solid rgba(212, 175, 55, 0.55);
+            width: 28px;
+            height: 28px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+
+        .card-qty-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .card-qty-count {
+            min-width: 20px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-main);
+            user-select: none;
+        }
+
+        /* رسالة التنبيه المخصصة: فوق الزر، منحازة لليمين، ومثلث أسفل يشاور للزر */
+        .order-guide-callout {
+            position: fixed;
+            z-index: 99999;
+            width: 265px;
+            background: linear-gradient(145deg, #1b1810, #111111);
+            color: var(--text-main);
+            border: 1.5px solid rgba(212, 175, 55, 0.95);
+            border-radius: 10px;
+            padding: 10px 13px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.85), 0 0 15px rgba(212, 175, 55, 0.3);
+            font-size: 12.5px;
+            font-weight: 800;
+            line-height: 1.55;
+            text-align: right;
+            cursor: pointer;
+            display: none;
+        }
+
+        .order-guide-callout.show {
+            display: block;
+        }
+
+        .order-guide-callout .callout-top {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-color);
+            font-size: 11.5px;
+            font-weight: 900;
+            margin-bottom: 3px;
+        }
+
+        .order-guide-callout::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: var(--arrow-left, 30%);
+            transform: translateX(-50%);
+            border-width: 8px;
+            border-style: solid;
+            border-color: rgba(212, 175, 55, 0.95) transparent transparent transparent;
+        }
+
+        .order-guide-callout.below::after {
+            top: auto;
+            bottom: 100%;
+            border-color: transparent transparent rgba(212, 175, 55, 0.95) transparent;
+        }
+
+        /* نافذة السلة ومودال تأكيد كلمة مرور الحذف */
+        .cart-modal,
+        .delete-auth-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2500;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .cart-modal.active,
+        .delete-auth-modal.active {
+            display: flex;
+        }
+
+        .cart-box,
+        .delete-auth-box {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+        }
+
+        .delete-auth-box {
+            max-width: 390px;
             text-align: center;
         }
 
-        .product-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .delete-auth-box h3 {
+            color: var(--accent-color);
+            font-size: 19px;
+            font-weight: 900;
+            margin-bottom: 8px;
         }
 
-        .product-price {
+        .delete-auth-box p {
+            color: var(--text-muted);
+            font-size: 13.5px;
+            margin-bottom: 14px;
+        }
+
+        .delete-auth-box input {
+            width: 100%;
+            padding: 10px 12px;
+            background: #222;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            color: #fff;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .delete-auth-error {
+            display: none;
+            background: rgba(192, 32, 32, 0.18);
+            border: 1px solid rgba(231, 76, 60, 0.75);
+            color: #ff8a80;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 12.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .delete-auth-error.show {
+            display: block;
+        }
+
+        .delete-auth-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .danger-confirm-btn {
+            background: #c02020;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 800;
+            cursor: pointer;
+            flex: 1;
+            transition: 0.2s;
+        }
+
+        .danger-confirm-btn:hover {
+            background: #e62929;
+        }
+
+        .cancel-auth-btn {
+            background: #242424;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .cancel-auth-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .cart-header h3 {
             color: var(--accent-color);
             font-size: 20px;
-            font-weight: 900;
-            margin-bottom: 15px;
-
-
-            
         }
-        .products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* عمودان متساويان في كل صف */
-    gap: 20px; /* المسافة بين البطاقات */
-}
 
-@media (max-width: 768px) {
-    .products-grid {
-        grid-template-columns: 1fr; /* عمود واحد على شاشات الجوال الصغيرة */
-    }
-}
-        /* الحاوية اللي شايلة الصور (الـ Grid أو الـ Flex) */
-.products-container {
-  display: grid;
-  /* بيعمل أعمدة متجاوبة (3 أو 4 في الشاشة الكبيرة بدل 2 كبار أوي) */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-  gap: 20px;
-  padding: 20px 5%;
-  max-width: 1200px; /* بيمنع الصور إنها تكبر بزيادة في الشاشات العريضة */
-  margin: 0 auto; /* بيوسطن المحتوى في نص الصفحة */
-}
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 24px;
+            cursor: pointer;
+        }
 
-/* الكارت الخاص بكل هودي */
-.product-card {
-  background-color: #130101; /* نفس لون خلفية الصور عشان تبان مدمجة */
-  border-radius: 10px;
-  padding: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111;
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
 
-/* الصورة نفسها */
-.product-card img {
-  width: 50%;
-  height: 350px; /* تقدر تتحكم في الطول المناسب لشكل صفحتك */
-  object-fit: contain; /* ده السحر اللي هيخلي الهودي يظهر كامل من غير قص */
-}
+        .cart-item-info h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
 
-        /* الفوتر والتواصل */
+        .cart-item-info span {
+            color: var(--accent-color);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            background: #242424;
+            color: #fff;
+            border: 1px solid var(--border-color);
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .remove-item-btn {
+            background: #8b1e1e;
+            color: #fff;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .cart-total {
+            text-align: center;
+            font-size: 19px;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin: 15px 0;
+            padding: 10px;
+            background: #111;
+            border-radius: 6px;
+        }
+
+        .customer-form .form-group input,
+        .customer-form .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: #222;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        /* الفوتر */
         footer {
             background: #070707;
             border-top: 1px solid var(--border-color);
@@ -440,7 +650,8 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
             margin-bottom: 30px;
         }
 
@@ -456,6 +667,7 @@
             border-radius: 50%;
             font-size: 20px;
             transition: 0.3s;
+            text-decoration: none;
         }
 
         .social-links a:hover {
@@ -471,216 +683,39 @@
             padding-top: 20px;
         }
 
-        /* ضبط الحسابات لجميع العناصر بحيث لا يتسبب الـ padding في زيادة العرض */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* منع التمرير الأفقي المزعج على الهواتف */
-body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* جعل الصور والفيديوهات تتقلص تلقائياً لتناسب حجم الشاشة */
-img, video, iframe {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* حاوية رئيسية مرنة للمحتوى */
-.container {
-  width: 90%;
-  max-width: 1200px; /* أقصى عرض على الشاشات الكبيرة */
-  margin: 0 auto;    /* توسيط المحتوى */
-}
-
-/* للشاشات المتوسطة (التابلت - أقل من 992 بكسل) */
-@media (max-width: 992px) {
-  .container {
-    width: 95%;
-  }
-}
-
-/* للشاشات الصغيرة (الهواتف الذكية - أقل من 768 بكسل) */
-@media (max-width: 768px) {
-  /* مثال: جعل العناصر التي بجانب بعضها تصبح فوق بعضها */
-  .row {
-    flex-direction: column;
-  }
-
-  /* تصغير حجم الخطوط الكبيرة لتناسب الهاتف */
-  h1 {
-    font-size: 24px;
-  }
-  
-  p {
-    font-size: 16px;
-  }
-}
-/* إصلاح تداخل عناصر كارت المنتج وتنسيق الصور والأزرار */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
-    align-items: stretch;
-}
-
-.product-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 15px;
-    overflow: hidden;
-    gap: 12px;
-}
-
-.product-card img {
-    width: 100%;
-    max-width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 8px;
-    display: block;
-}
-
-.product-card .product-info {
-    width: 100%;
-    padding: 10px 5px 5px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.product-card .product-title {
-    margin-bottom: 0;
-    font-size: 17px;
-}
-
-.product-card .product-price {
-    margin-bottom: 5px;
-    font-size: 18px;
-}
-
-.product-card .add-to-cart-btn {
-    width: 100%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}/* ضبط الهيدر ومحاذاة السلة بعد أيقونة الإنستجرام */
-header {
-    gap: 10px;
-    padding: 12px 4%;
-}
-
-.logo {
-    font-size: 20px;
-    white-space: nowrap;
-}
-
-.social-icons-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: nowrap;
-}
-
-.social-icons-header a {
-    margin-left: 0;
-    font-size: 16px;
-}
-
-.cart-btn {
-    padding: 5px 10px;
-    font-size: 13px !important;
-    white-space: nowrap;
-}
-
-/* تصغير حجم حاوية المنتجات والكروت لتناسب الشاشة بشكل متوازن */
-.products-section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 35px 4%;
-}
-
-.products-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-}
-
-.product-card {
-    padding: 12px;
-    gap: 8px;
-}
-
-.product-card img {
-    height: 190px;
-}
-
-.product-card .product-info {
-    padding: 6px 2px 2px;
-    gap: 6px;
-}
-
-.product-card .product-title {
-    font-size: 15px;
-}
-
-.product-card .product-price {
-    font-size: 16px;
-    margin-bottom: 2px;
-}
-
-.product-card .add-to-cart-btn {
-    padding: 9px 12px;
-    font-size: 14px;
-}
-
-/* تنسيق خاص للموبايل والتابلت */
-@media (max-width: 768px) {
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .product-card {
-        padding: 10px;
-    }
-
-    .product-card img {
-        height: 145px;
-    }
-
-    .product-card .product-title {
-        font-size: 13px;
-    }
-
-    .product-card .product-price {
-        font-size: 14px;
-    }
-
-    .product-card .add-to-cart-btn {
-        padding: 7px 8px;
-        font-size: 12px;
-    }
-}
-
-
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .product-card {
+                padding: 10px;
+            }
+            .product-card img {
+                height: 155px;
+            }
+            .product-card .product-title {
+                font-size: 13px;
+            }
+            .product-card .product-price {
+                font-size: 14px;
+            }
+            .product-card .add-to-cart-btn {
+                padding: 6px 8px !important;
+                font-size: 11px !important;
+            }
+            .admin-panel {
+                margin: 20px 4% 40px;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر -->
     <header>
         <div class="logo">ZONT STORE</div>
         <div class="social-icons-header">
@@ -688,22 +723,18 @@ header {
             <a href="https://wa.me/201012805508" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
             <a href="https://www.instagram.com/zont_store1?vrfl=MWtxZnk0aTZ6Zzd3bw==" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
             <a href="#" id="openCartBtn" class="cart-btn" title="سلة المشتريات">
-    <i class="fas fa-shopping-cart"></i>
-    <span id="cartCount">0</span>
-</a>
-            
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </a>
         </div>
     </header>
 
-    <!-- الواجهة -->
     <section class="hero">
-        <h1> <span>Zont Store</span></h1>
-        <p>تشكيلة فاخرة من أرقى الهوديات المصنوعة بأعلى جودة .</p>
+        <h1><span>Zont Store</span></h1>
+        <p>تشكيلة فاخرة من أرقى الهوديات المصنوعة بأعلى جودة.</p>
         <a href="#products" class="btn">تسوق التشكيلة الآن</a>
     </section>
-    
 
-    <!-- مميزات البراند -->
     <section class="features">
         <div class="feature-box">
             <i class="fas fa-shipping-fast"></i>
@@ -722,355 +753,714 @@ header {
         </div>
     </section>
 
-   <!-- لوحة تحكم سريعة لإضافة منتجات جديدة -->
-<div class="admin-panel">
-    <h2><i class="fas fa-plus-circle"></i> إضافة هودي جديد (لإدارة المتجر)</h2>
-    <form id="addProductForm">
-        <div class="form-group">
-            <label>اسم الهودي:</label>
-            <input type="text" id="pName" placeholder="مثال: Zont Oversized Black Hoodie" required>
-        </div>
-        <div class="form-group">
-            <label>السعر (مثال: 950 EGP):</label>
-            <input type="text" id="pPrice" placeholder="950 EGP" required>
-        </div>
-        <div class="form-group">
-            <label>اختر صورة الهودي من المعرض:</label>
-            <!-- تم تغيير النوع إلى file مع accept="image/*" لفتح معرض الصور مباشرة على الهاتف -->
-            <input type="file" id="pImage" accept="image/*" required>
-        </div>
-        <div class="form-group">
-            <label>كلمة مرور الإدارة:</label>
-            <input type="password" id="adminPass" placeholder="أدخل كلمة المرور للإضافة" required>
-        </div>
-        <button type="submit" class="btn">إضافة المنتج للموقع</button>
-    </form>
-</div>
+    <section class="products-section" id="products">
+        <h2 class="section-title">تشكيلة <span>الهوديات</span></h2>
+        <div class="products-grid" id="productsGrid">
 
-
-
-     <!-- قسم المنتجات -->
-<section class="products-section" id="products"></section>
-    <h2 class="section-title">تشكيلة <span>الهوديات</span></h2>
-    <div class="products-grid" id="productsGrid">
-
-        <div class="product-card">
-            <img src="images/zont 2.jpg.jpeg" alt="راوند زيتي طباعه">
-            <div class="product-info">
-                <h3 class="product-title">راوند زيتي طباعه</h3>
-                <div class="product-price">450 EGP</div>
-                <button type="button" class="btn add-to-cart-btn" data-name="راوند زيتي طباعه" data-price="450">
-                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            <div class="product-card" data-default-key="default-1">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                    <i class="fas fa-trash"></i>
                 </button>
+                <img src="images/zont 2.jpg.jpeg" alt="راوند زيتي طباعه">
+                <div class="product-info">
+                    <h3 class="product-title">راوند زيتي طباعه</h3>
+                    <div class="product-price">450 EGP</div>
+                    <div class="card-cart-controls">
+                        <button type="button" class="card-qty-btn card-minus-btn" data-name="راوند زيتي طباعه" title="تنقيص واحد">-</button>
+                        <span class="card-qty-count" data-name="راوند زيتي طباعه">0</span>
+                        <button type="button" class="card-qty-btn card-plus-btn" data-name="راوند زيتي طباعه" data-price="450" title="تزويد واحد">+</button>
+                        <button type="button" class="btn add-to-cart-btn" data-name="راوند زيتي طباعه" data-price="450">
+                            <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="product-card">
-            <img src="images/zont 1.jpg.jpeg" alt="هودي برجاندي دابل سوسته">
-            <div class="product-info">
-                <h3 class="product-title">هودي برجاندي دابل سوسته</h3>
-                <div class="product-price">550 EGP</div>
-                <button type="button" class="btn add-to-cart-btn" data-name="هودي برجاندي دابل سوسته" data-price="550">
-                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            <div class="product-card" data-default-key="default-2">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                    <i class="fas fa-trash"></i>
                 </button>
+                <img src="images/zont 1.jpg.jpeg" alt="هودي برجاندي دابل سوسته">
+                <div class="product-info">
+                    <h3 class="product-title">هودي برجاندي دابل سوسته</h3>
+                    <div class="product-price">550 EGP</div>
+                    <div class="card-cart-controls">
+                        <button type="button" class="card-qty-btn card-minus-btn" data-name="هودي برجاندي دابل سوسته" title="تنقيص واحد">-</button>
+                        <span class="card-qty-count" data-name="هودي برجاندي دابل سوسته">0</span>
+                        <button type="button" class="card-qty-btn card-plus-btn" data-name="هودي برجاندي دابل سوسته" data-price="550" title="تزويد واحد">+</button>
+                        <button type="button" class="btn add-to-cart-btn" data-name="هودي برجاندي دابل سوسته" data-price="550">
+                            <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="product-card">
-            <img src="images/zont 10.jpg.jpeg" alt="راوند برجاندي ساده">
-            <div class="product-info">
-                <h3 class="product-title">راوند برجاندي ساده</h3>
-                <div class="product-price">450 EGP</div>
-                <button type="button" class="btn add-to-cart-btn" data-name="راوند برجاندي ساده" data-price="450">
-                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            <div class="product-card" data-default-key="default-3">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                    <i class="fas fa-trash"></i>
                 </button>
+                <img src="images/zont 10.jpg.jpeg" alt="راوند برجاندي ساده">
+                <div class="product-info">
+                    <h3 class="product-title">راوند برجاندي ساده</h3>
+                    <div class="product-price">450 EGP</div>
+                    <div class="card-cart-controls">
+                        <button type="button" class="card-qty-btn card-minus-btn" data-name="راوند برجاندي ساده" title="تنقيص واحد">-</button>
+                        <span class="card-qty-count" data-name="راوند برجاندي ساده">0</span>
+                        <button type="button" class="card-qty-btn card-plus-btn" data-name="راوند برجاندي ساده" data-price="450" title="تزويد واحد">+</button>
+                        <button type="button" class="btn add-to-cart-btn" data-name="راوند برجاندي ساده" data-price="450">
+                            <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="product-card">
-            <img src="images/zont 3.jpg.jpeg" alt="راوند اسود طباعه">
-            <div class="product-info">
-                <h3 class="product-title">راوند اسود طباعه</h3>
-                <div class="product-price">450 EGP</div>
-                <button type="button" class="btn add-to-cart-btn" data-name="راوند اسود طباعه" data-price="450">
-                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            <div class="product-card" data-default-key="default-4">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                    <i class="fas fa-trash"></i>
                 </button>
+                <img src="images/zont 3.jpg.jpeg" alt="راوند اسود طباعه">
+                <div class="product-info">
+                    <h3 class="product-title">راوند اسود طباعه</h3>
+                    <div class="product-price">450 EGP</div>
+                    <div class="card-cart-controls">
+                        <button type="button" class="card-qty-btn card-minus-btn" data-name="راوند اسود طباعه" title="تنقيص واحد">-</button>
+                        <span class="card-qty-count" data-name="راوند اسود طباعه">0</span>
+                        <button type="button" class="card-qty-btn card-plus-btn" data-name="راوند اسود طباعه" data-price="450" title="تزويد واحد">+</button>
+                        <button type="button" class="btn add-to-cart-btn" data-name="راوند اسود طباعه" data-price="450">
+                            <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="product-card">
-            <img src="images/zont z.jpg.jpeg" alt="راوند زيتي ساده">
-            <div class="product-info">
-                <h3 class="product-title">راوند زيتي ساده</h3>
-                <div class="product-price">450 EGP</div>
-                <button type="button" class="btn add-to-cart-btn" data-name="راوند زيتي ساده" data-price="450">
-                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            <div class="product-card" data-default-key="default-5">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                    <i class="fas fa-trash"></i>
                 </button>
+                <img src="images/zont z.jpg.jpeg" alt="راوند زيتي ساده">
+                <div class="product-info">
+                    <h3 class="product-title">راوند زيتي ساده</h3>
+                    <div class="product-price">450 EGP</div>
+                    <div class="card-cart-controls">
+                        <button type="button" class="card-qty-btn card-minus-btn" data-name="راوند زيتي ساده" title="تنقيص واحد">-</button>
+                        <span class="card-qty-count" data-name="راوند زيتي ساده">0</span>
+                        <button type="button" class="card-qty-btn card-plus-btn" data-name="راوند زيتي ساده" data-price="450" title="تزويد واحد">+</button>
+                        <button type="button" class="btn add-to-cart-btn" data-name="راوند زيتي ساده" data-price="450">
+                            <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="product-card">
-            <img src="images/zont s.jpg.jpeg" alt="راوند اسود ساده">
-            <div class="product-info">
-                <h3 class="product-title">راوند اسود ساده</h3>
-                <div class="product-price">450 EGP</div>
-                <button type="button" class="btn add-to-cart-btn" data-name="راوند اسود ساده" data-price="450">
-                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+            <div class="product-card" data-default-key="default-6">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                    <i class="fas fa-trash"></i>
                 </button>
+                <img src="images/zont s.jpg.jpeg" alt="راوند اسود ساده">
+                <div class="product-info">
+                    <h3 class="product-title">راوند اسود ساده</h3>
+                    <div class="product-price">450 EGP</div>
+                    <div class="card-cart-controls">
+                        <button type="button" class="card-qty-btn card-minus-btn" data-name="راوند اسود ساده" title="تنقيص واحد">-</button>
+                        <span class="card-qty-count" data-name="راوند اسود ساده">0</span>
+                        <button type="button" class="card-qty-btn card-plus-btn" data-name="راوند اسود ساده" data-price="450" title="تزويد واحد">+</button>
+                        <button type="button" class="btn add-to-cart-btn" data-name="راوند اسود ساده" data-price="450">
+                            <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                        </button>
+                    </div>
+                </div>
             </div>
+
         </div>
-
-    </div>
-   </section>
-    <!-- الفوتر والتواصل -->
-    <footer>
-        <div class="social-links">
-            <a href="tel:+201012805508" title="الهاتف"><i class="fas fa-phone"></i></a>
-            <a href="https://wa.me/201012805508" target="_blank" title="الواتساب"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.facebook.com/share/1Egre5hArR/" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/zont_store1?vrfl=MWtxZnk0aTZ6Zzd3bw==" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@zont.store.1?_r=1&_t=ZS-9B7IbGmoS3w" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
-        </div>
-        <p class="copyright">جميع الحقوق محفوظة &copy; 2026 Zont Store</p>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- نافذة سلة المشتريات وبيانات العميل -->
-<div class="cart-modal" id="cartModal">
-    <div class="cart-box">
-        <div class="cart-header">
-            <h3><i class="fas fa-shopping-bag"></i> سلة المشتريات</h3>
-            <button type="button" class="close-cart" id="closeCartBtn">&times;</button>
-        </div>
-
-        <div id="cartItemsContainer"></div>
-
-        <div class="cart-total" id="cartTotalBox">
-            الإجمالي: 0 EGP
-        </div>
-
-        <form id="checkoutForm" class="customer-form">
-            <h4 style="color: var(--accent-color); margin-bottom: 12px;">بيانات التوصيل:</h4>
-
+    </section>
+    <!-- لوحة إضافة هودي جديد في آخر الصفحة بعد المنتجات -->
+    <div class="admin-panel" id="admin">
+        <h2><i class="fas fa-plus-circle"></i> إضافة هودي جديد (لإدارة المتجر)</h2>
+        <form id="addProductForm">
             <div class="form-group">
-                <label>الاسم بالكامل:</label>
-                <input type="text" id="custName" placeholder="اكتب اسمك الثلاثي" required>
+                <label>اسم الهودي:</label>
+                <input type="text" id="pName" placeholder="مثال: Zont Oversized Black Hoodie" required>
             </div>
-
             <div class="form-group">
-                <label>رقم الهاتف (واتساب):</label>
-                <input type="tel" id="custPhone" placeholder="مثال: 01012345678" required>
+                <label>السعر (مثال: 950 EGP):</label>
+                <input type="text" id="pPrice" placeholder="950 EGP" required>
             </div>
-
             <div class="form-group">
-                <label>العنوان بالتفصيل (المحافظة - المنطقة - الشارع):</label>
-                <textarea id="custAddress" rows="3" placeholder="اكتب عنوانك بدقة لتسهيل التوصيل" required></textarea>
+                <label>اختر صورة الهودي من المعرض:</label>
+                <input type="file" id="pImage" accept="image/*" required>
             </div>
-
-            <button type="submit" class="btn submit-order-btn">
-                <i class="fab fa-whatsapp"></i> إتمام الطلب وإرساله عبر واتساب
-            </button>
+            <div class="form-group">
+                <label>كلمة مرور الإدارة:</label>
+                <input type="password" id="adminPass" placeholder="أدخل كلمة المرور للإضافة" required>
+            </div>
+            <button type="submit" class="btn">إضافة المنتج للموقع</button>
         </form>
     </div>
-</div>
-    </footer>
-    
 
-    <!-- جافاسكريبت لإضافة المنتجات فورياً -->
-    <script>
-      document.getElementById('addProductForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // 1. تحديد كلمة المرور الخاصة بك (غيرها لأي رقم أو كلمة تريدها)
-    const SECRET_PASSWORD = "ZONT2026"; 
-    const enteredPass = document.getElementById('adminPass').value;
-
-    // التحقق من كلمة المرور قبل فعل أي شيء
-    if (enteredPass !== SECRET_PASSWORD) {
-        alert("❌ كلمة المرور غير صحيحة! لا تملك صلاحية إضافة منتجات.");
-        return;
-    }
-
-    // 2. جلب البيانات والصورة من المعرض
-    const name = document.getElementById('pName').value;
-    const price = document.getElementById('pPrice').value;
-    const imageInput = document.getElementById('pImage');
-    const file = imageInput.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-        
-        // عندما يتم قراءة الصورة من الهاتف بنجاح
-        reader.onload = function(event) {
-            const imageDataUrl = event.target.result; // هذا هو رابط الصورة الجاهز للعرض
-
-            // ---------------------------------------------------------
-            // ضع هنا الدالة الخاصة بك التي تضيف المنتج للشبكة (Grid)
-            // مثال: addProductToGrid(name, price, imageDataUrl);
-            // ---------------------------------------------------------
-
-            alert("✅ تم إضافة الهودي بنجاح!");
-            document.getElementById('addProductForm').reset(); // تفريغ الخانات بعد الإضافة
-        };
-
-        reader.readAsDataURL(file);
-    }
-});
-// مصفوفة السلة
-let cart = [];
-
-const cartModal = document.getElementById('cartModal');
-const openCartBtn = document.getElementById('openCartBtn');
-const closeCartBtn = document.getElementById('closeCartBtn');
-const cartItemsContainer = document.getElementById('cartItemsContainer');
-const cartCountEl = document.getElementById('cartCount');
-const cartTotalBox = document.getElementById('cartTotalBox');
-const checkoutForm = document.getElementById('checkoutForm');
-
-// فتح وإغلاق نافذة السلة
-openCartBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    renderCart();
-    cartModal.classList.add('active');
-});
-
-closeCartBtn.addEventListener('click', function() {
-    cartModal.classList.remove('active');
-});
-
-cartModal.addEventListener('click', function(e) {
-    if (e.target === cartModal) {
-        cartModal.classList.remove('active');
-    }
-});
-
-// ربط أزرار "أضف إلى السلة" بالمنتجات
-document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const name = this.getAttribute('data-name');
-        const price = parseFloat(this.getAttribute('data-price')) || 0;
-        addToCart(name, price);
-    });
-});
-
-// دالة إضافة منتج للسلة (يمكنك استدعاؤها أيضاً من لوحة إضافة المنتجات)
-function addToCart(name, price) {
-    const cleanPrice = typeof price === 'number' ? price : (parseFloat(String(price).replace(/[^\d.]/g, '')) || 0);
-    const existingItem = cart.find(item => item.name === name);
-
-    if (existingItem) {
-        existingItem.qty += 1;
-    } else {
-        cart.push({ name: name, price: cleanPrice, qty: 1 });
-    }
-
-    updateCartBadge();
-    alert('🛒 تم إضافة "' + name + '" إلى السلة بنجاح!');
-}
-
-// تحديث عداد السلة في الهيدر
-function updateCartBadge() {
-    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-    cartCountEl.textContent = totalQty;
-}
-
-// عرض محتويات السلة وحساب الإجمالي
-function renderCart() {
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 15px;">السلة فارغة حالياً.</p>';
-        cartTotalBox.textContent = 'الإجمالي: 0 EGP';
-        return;
-    }
-
-    let html = '';
-    let total = 0;
-
-    cart.forEach((item, index) => {
-        const itemSubtotal = item.price * item.qty;
-        total += itemSubtotal;
-
-        html += `
-            <div class="cart-item">
-                <div class="cart-item-info">
-                    <h4>${item.name}</h4>
-                    <span>${item.price} EGP × ${item.qty} = ${itemSubtotal} EGP</span>
-                </div>
-                <div class="qty-controls">
-                    <button type="button" class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
-                    <span>${item.qty}</span>
-                    <button type="button" class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-                    <button type="button" class="remove-item-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
-                </div>
+    <!-- نافذة السلة المنبثقة -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-box">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-bag"></i> سلة المشتريات</h3>
+                <button type="button" class="close-cart" id="closeCartBtn" aria-label="إغلاق السلة">&times;</button>
             </div>
-        `;
-    });
 
-    cartItemsContainer.innerHTML = html;
-    cartTotalBox.textContent = 'الإجمالي: ' + total + ' EGP';
-}
+            <div id="cartItemsContainer"></div>
+            <div class="cart-total" id="cartTotalBox">الإجمالي: 0 EGP</div>
 
-// تعديل الكمية
-function changeQty(index, delta) {
-    if (!cart[index]) return;
-    cart[index].qty += delta;
-    if (cart[index].qty <= 0) {
-        cart.splice(index, 1);
-    }
-    updateCartBadge();
-    renderCart();
-}
+            <form class="customer-form" id="checkoutForm">
+                <div class="form-group">
+                    <label for="custName">الاسم الكامل:</label>
+                    <input type="text" id="custName" placeholder="اكتب اسمك هنا" required>
+                </div>
+                <div class="form-group">
+                    <label for="custPhone">رقم الهاتف (واتساب):</label>
+                    <input type="tel" id="custPhone" placeholder="01xxxxxxxxx" required>
+                </div>
+                <div class="form-group">
+                    <label for="custAddress">العنوان بالتفصيل:</label>
+                    <textarea id="custAddress" rows="2" placeholder="المحافظة - المدينة - الشارع - رقم العقار" required></textarea>
+                </div>
+                <button type="submit" class="btn submit-order-btn">
+                    <i class="fab fa-whatsapp"></i> تأكيد وإرسال الطلب عبر واتساب
+                </button>
+            </form>
+        </div>
+    </div>
 
-// حذف منتج من السلة
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCartBadge();
-    renderCart();
-}
+    <!-- نافذة تأكيد كلمة مرور المالك قبل حذف الهودي -->
+    <div class="delete-auth-modal" id="deleteAuthModal">
+        <div class="delete-auth-box">
+            <h3><i class="fas fa-shield-alt"></i> تأكيد صلاحية المالك</h3>
+            <p>أدخل كلمة مرور الإدارة لتأكيد حذف هذا الهودي من المتجر.</p>
+            <input type="password" id="deleteOwnerPass" placeholder="كلمة مرور المالك">
+            <div id="deleteAuthError" class="delete-auth-error">
+                كلمة المرور غير صحيحة — تعذر حذف الهودي
+            </div>
+            <div class="delete-auth-actions">
+                <button type="button" class="danger-confirm-btn" id="confirmDeleteBtn">
+                    <i class="fas fa-trash"></i> تأكيد الحذف
+                </button>
+                <button type="button" class="cancel-auth-btn" id="cancelDeleteBtn">إلغاء</button>
+            </div>
+        </div>
+    </div>
 
-// إرسال الطلب بالكامل إلى واتساب
-checkoutForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+    <!-- رسالة التنبيه المخصصة المنبثقة أعلى الزر ومشيرة له بالمثلث -->
+    <div id="orderGuideCallout" class="order-guide-callout" role="status" aria-live="polite">
+        <div class="callout-top">
+            <i class="fas fa-shopping-bag"></i>
+            <span>تمت الإضافة للسلة</span>
+        </div>
+        <div>لتأكيد الطلب وملء البيانات اذهب إلى أيقونة السلة في الأعلى</div>
+    </div>
 
-    if (cart.length === 0) {
-        alert('⚠️ من فضلك أضف منتجاً واحداً على الأقل إلى السلة قبل إتمام الطلب.');
-        return;
-    }
+    <!-- الفوتر -->
+    <footer>
+        <div class="social-links">
+            <a href="tel:+201012805508" title="اتصل بنا"><i class="fas fa-phone"></i></a>
+            <a href="https://wa.me/201012805508" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/zont_store1?vrfl=MWtxZnk0aTZ6Zzd3bw==" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/1EsJD3FG2t/" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com/@zont.store.1?_r=1&_t=ZS-9Bi7jy8qAJm" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <div class="copyright">
+            جميع الحقوق محفوظة &copy; 2026 Zont Store
+        </div>
+    </footer>
+    <script>
+        const OWNER_SECRET_PASSWORD = "ZONT2026";
+        let pendingDeleteTargetBtn = null;
+        let pendingDeleteProductId = null;
 
-    const custName = document.getElementById('custName').value.trim();
-    const custPhone = document.getElementById('custPhone').value.trim();
-    const custAddress = document.getElementById('custAddress').value.trim();
+        const deleteAuthModal = document.getElementById('deleteAuthModal');
+        const deleteOwnerPassInput = document.getElementById('deleteOwnerPass');
+        const deleteAuthError = document.getElementById('deleteAuthError');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
-    let itemsText = '';
-    let grandTotal = 0;
+        function openDeleteAuthModal(btnEl, productId) {
+            pendingDeleteTargetBtn = btnEl || null;
+            pendingDeleteProductId = productId || null;
 
-    cart.forEach((item, i) => {
-        const sub = item.price * item.qty;
-        grandTotal += sub;
-        itemsText += `${i + 1}. ${item.name} | الكمية: ${item.qty} | السعر: ${sub} EGP%0A`;
-    });
+            if (deleteOwnerPassInput) {
+                deleteOwnerPassInput.value = '';
+            }
+            if (deleteAuthError) {
+                deleteAuthError.classList.remove('show');
+            }
+            if (deleteAuthModal) {
+                deleteAuthModal.classList.add('active');
+                setTimeout(function() {
+                    if (deleteOwnerPassInput) deleteOwnerPassInput.focus();
+                }, 50);
+            }
+        }
 
-    const whatsappNumber = '201012805508';
-    const message =
-        `🛍️ *طلب جديد من Zont Store*%0A` +
-        `----------------------------%0A` +
-        `👤 *الاسم:* ${encodeURIComponent(custName)}%0A` +
-        `📞 *رقم الهاتف:* ${encodeURIComponent(custPhone)}%0A` +
-        `📍 *العنوان:* ${encodeURIComponent(custAddress)}%0A` +
-        `----------------------------%0A` +
-        `🛒 *المنتجات المطلوبة:*%0A${itemsText}` +
-        `----------------------------%0A` +
-        `💰 *الإجمالي:* ${grandTotal} EGP`;
+        function closeDeleteAuthModal() {
+            pendingDeleteTargetBtn = null;
+            pendingDeleteProductId = null;
+            if (deleteAuthModal) {
+                deleteAuthModal.classList.remove('active');
+            }
+            if (deleteAuthError) {
+                deleteAuthError.classList.remove('show');
+            }
+        }
 
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+        if (cancelDeleteBtn) {
+            cancelDeleteBtn.addEventListener('click', closeDeleteAuthModal);
+        }
 
-    window.location.href = whatsappUrl;
+        if (deleteAuthModal) {
+            deleteAuthModal.addEventListener('click', function(e) {
+                if (e.target === deleteAuthModal) {
+                    closeDeleteAuthModal();
+                }
+            });
+        }
 
+        if (confirmDeleteBtn) {
+            confirmDeleteBtn.addEventListener('click', function() {
+                const enteredPass = deleteOwnerPassInput ? deleteOwnerPassInput.value : '';
 
-    // تفريغ السلة والنموذج بعد الإرسال
-    cart = [];
-    updateCartBadge();
-    renderCart();
-    checkoutForm.reset();
-    cartModal.classList.remove('active');
-});
-    </script>
-</body>
-</html>
+                if (enteredPass !== OWNER_SECRET_PASSWORD) {
+                    if (deleteAuthError) {
+                        deleteAuthError.classList.add('show');
+                    }
+                    if (deleteOwnerPassInput) {
+                        deleteOwnerPassInput.focus();
+                    }
+                    return;
+                }
+
+                if (pendingDeleteProductId !== null) {
+                    const savedProducts = JSON.parse(localStorage.getItem('zontCustomProducts') || '[]');
+                    const updated = savedProducts.filter(function(item) {
+                        return item.id !== pendingDeleteProductId;
+                    });
+                    localStorage.setItem('zontCustomProducts', JSON.stringify(updated));
+                }
+
+                const cardEl = pendingDeleteTargetBtn ? pendingDeleteTargetBtn.closest('.product-card') : null;
+                if (cardEl) {
+                    const titleEl = cardEl.querySelector('.product-title');
+                    const prodName = titleEl ? titleEl.textContent.trim() : '';
+                    if (prodName) {
+                        cart = cart.filter(function(item) {
+                            return item.name !== prodName;
+                        });
+                        updateCartBadge();
+                    }
+                    cardEl.remove();
+                }
+
+                closeDeleteAuthModal();
+            });
+        }
+
+        if (deleteOwnerPassInput) {
+            deleteOwnerPassInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (confirmDeleteBtn) confirmDeleteBtn.click();
+                }
+            });
+        }
+
+        function appendCustomProductCard(product) {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            const card = document.createElement('div');
+            card.className = 'product-card custom-product-card';
+            card.innerHTML =
+                '<button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, ' + product.id + ')" title="حذف الهودي">' +
+                    '<i class="fas fa-trash"></i>' +
+                '</button>' +
+                '<img src="' + product.image + '" alt="' + product.name + '">' +
+                '<div class="product-info">' +
+                    '<h3 class="product-title">' + product.name + '</h3>' +
+                    '<div class="product-price">' + product.price + '</div>' +
+                    '<div class="card-cart-controls">' +
+                        '<button type="button" class="card-qty-btn card-minus-btn" data-name="' + product.name + '" title="تنقيص واحد">-</button>' +
+                        '<span class="card-qty-count" data-name="' + product.name + '">0</span>' +
+                        '<button type="button" class="card-qty-btn card-plus-btn" data-name="' + product.name + '" data-price="' + product.numericPrice + '" title="تزويد واحد">+</button>' +
+                        '<button type="button" class="btn add-to-cart-btn" data-name="' + product.name + '" data-price="' + product.numericPrice + '">' +
+                            '<i class="fas fa-cart-plus"></i> أضف إلى السلة' +
+                        '</button>' +
+                    '</div>' +
+                '</div>';
+
+            grid.appendChild(card);
+            attachCartButtonListeners();
+            syncCardQtyCounters();
+        }
+
+        function loadSavedProducts() {
+            const savedProducts = JSON.parse(localStorage.getItem('zontCustomProducts') || '[]');
+            savedProducts.forEach(function(product) {
+                appendCustomProductCard(product);
+            });
+        }
+
+        const addProductForm = document.getElementById('addProductForm');
+        if (addProductForm) {
+            addProductForm.addEventListener('submit', function(e) {
+                if (!addProductForm.checkValidity()) {
+                    return;
+                }
+                e.preventDefault();
+
+                const enteredPass = document.getElementById('adminPass').value;
+
+                if (enteredPass !== OWNER_SECRET_PASSWORD) {
+                    alert("❌ كلمة المرور غير صحيحة! لا تملك صلاحية إضافة منتجات.");
+                    return;
+                }
+
+                const name = document.getElementById('pName').value.trim();
+                const price = document.getElementById('pPrice').value.trim();
+                const imageInput = document.getElementById('pImage');
+                const file = imageInput.files[0];
+
+                if (!file) {
+                    alert("⚠️ من فضلك اختر صورة للهودي أولاً.");
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageDataUrl = event.target.result;
+                    const numericPrice = parseFloat(String(price).replace(/[^\d.]/g, '')) || 0;
+
+                    const newProduct = {
+                        id: Date.now(),
+                        name: name,
+                        price: price,
+                        numericPrice: numericPrice,
+                        image: imageDataUrl
+                    };
+
+                    const savedProducts = JSON.parse(localStorage.getItem('zontCustomProducts') || '[]');
+                    savedProducts.push(newProduct);
+
+                    try {
+                        localStorage.setItem('zontCustomProducts', JSON.stringify(savedProducts));
+                    } catch (err) {
+                        alert("⚠️ حجم الصورة كبير جداً على التخزين المحلي، سيظهر المنتج الآن لكن قد لا يُحفظ بعد التحديث.");
+                    }
+
+                    appendCustomProductCard(newProduct);
+                    alert("✅ تم إضافة الهودي بنجاح!");
+                    addProductForm.reset();
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        let cart = [];
+        let orderGuideTimer = null;
+
+        const cartModal = document.getElementById('cartModal');
+        const openCartBtn = document.getElementById('openCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const cartCountEl = document.getElementById('cartCount');
+        const cartTotalBox = document.getElementById('cartTotalBox');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const orderGuideCallout = document.getElementById('orderGuideCallout');
+
+        if (openCartBtn && cartModal) {
+            openCartBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                renderCart();
+                cartModal.classList.add('active');
+            });
+        }
+
+        if (closeCartBtn && cartModal) {
+            closeCartBtn.addEventListener('click', function() {
+                cartModal.classList.remove('active');
+            });
+        }
+
+        if (cartModal) {
+            cartModal.addEventListener('click', function(e) {
+                if (e.target === cartModal) {
+                    cartModal.classList.remove('active');
+                }
+            });
+        }
+
+        if (orderGuideCallout) {
+            orderGuideCallout.addEventListener('click', function() {
+                orderGuideCallout.classList.remove('show');
+                if (openCartBtn) {
+                    openCartBtn.click();
+                }
+            });
+        }
+
+        function showOrderGuideNearButton(targetEl) {
+            if (!orderGuideCallout) return;
+
+            clearTimeout(orderGuideTimer);
+            orderGuideCallout.classList.remove('show', 'below');
+            orderGuideCallout.classList.add('show');
+
+            const boxWidth = orderGuideCallout.offsetWidth || 265;
+            const boxHeight = orderGuideCallout.offsetHeight || 82;
+            const gap = 12;
+
+            if (targetEl && typeof targetEl.getBoundingClientRect === 'function') {
+                const rect = targetEl.getBoundingClientRect();
+                const btnCenterX = rect.left + rect.width / 2;
+
+                let leftPos = btnCenterX - boxWidth * 0.25;
+                leftPos = Math.min(window.innerWidth - boxWidth - 10, Math.max(10, leftPos));
+
+                let topPos = rect.top - boxHeight - gap;
+                let placeBelow = false;
+
+                if (topPos < 65) {
+                    topPos = rect.bottom + gap;
+                    placeBelow = true;
+                }
+
+                const arrowOffset = Math.min(
+                    boxWidth - 18,
+                    Math.max(18, btnCenterX - leftPos)
+                );
+
+                orderGuideCallout.style.left = leftPos + 'px';
+                orderGuideCallout.style.top = topPos + 'px';
+                orderGuideCallout.style.setProperty('--arrow-left', arrowOffset + 'px');
+
+                if (placeBelow) {
+                    orderGuideCallout.classList.add('below');
+                }
+            } else {
+                orderGuideCallout.style.left = '50%';
+                orderGuideCallout.style.top = '75px';
+                orderGuideCallout.style.setProperty('--arrow-left', '50%');
+            }
+
+            if (openCartBtn) {
+                openCartBtn.classList.add('pulse');
+                setTimeout(function() {
+                    openCartBtn.classList.remove('pulse');
+                }, 450);
+            }
+
+            orderGuideTimer = setTimeout(function() {
+                orderGuideCallout.classList.remove('show');
+            }, 3400);
+        }
+
+        function addToCart(name, price, triggerEl) {
+            const cleanPrice = typeof price === 'number' ? price : (parseFloat(String(price).replace(/[^\d.]/g, '')) || 0);
+            const existingItem = cart.find(function(item) {
+                return item.name === name;
+            });
+
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ name: name, price: cleanPrice, qty: 1 });
+            }
+
+            updateCartBadge();
+            showOrderGuideNearButton(triggerEl || null);
+        }
+
+        function setProductQty(name, price, delta, triggerEl) {
+            const cleanPrice = typeof price === 'number' ? price : (parseFloat(String(price).replace(/[^\d.]/g, '')) || 0);
+            const existingIndex = cart.findIndex(function(item) {
+                return item.name === name;
+            });
+
+            if (delta > 0) {
+                if (existingIndex !== -1) {
+                    cart[existingIndex].qty += delta;
+                } else {
+                    cart.push({ name: name, price: cleanPrice, qty: delta });
+                }
+                updateCartBadge();
+                showOrderGuideNearButton(triggerEl || null);
+            } else if (delta < 0) {
+                if (existingIndex !== -1) {
+                    cart[existingIndex].qty += delta;
+                    if (cart[existingIndex].qty <= 0) {
+                        cart.splice(existingIndex, 1);
+                    }
+                    updateCartBadge();
+                    if (cartModal && cartModal.classList.contains('active')) {
+                        renderCart();
+                    }
+                }
+            }
+        }
+
+        function syncCardQtyCounters() {
+            document.querySelectorAll('.card-qty-count').forEach(function(el) {
+                const name = el.getAttribute('data-name');
+                const found = cart.find(function(item) {
+                    return item.name === name;
+                });
+                const qty = found ? found.qty : 0;
+                el.textContent = qty;
+                el.style.color = qty > 0 ? 'var(--accent-color)' : 'var(--text-main)';
+            });
+        }
+
+        function updateCartBadge() {
+            if (cartCountEl) {
+                const totalQty = cart.reduce(function(sum, item) {
+                    return sum + item.qty;
+                }, 0);
+                cartCountEl.textContent = totalQty;
+            }
+            syncCardQtyCounters();
+        }
+
+        function renderCart() {
+            if (!cartItemsContainer || !cartTotalBox) return;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 15px;">السلة فارغة حالياً.</p>';
+                cartTotalBox.textContent = 'الإجمالي: 0 EGP';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach(function(item, index) {
+                const itemSubtotal = item.price * item.qty;
+                total += itemSubtotal;
+
+                html +=
+                    '<div class="cart-item">' +
+                        '<div class="cart-item-info">' +
+                            '<h4>' + item.name + '</h4>' +
+                            '<span>' + item.price + ' EGP × ' + item.qty + ' = ' + itemSubtotal + ' EGP</span>' +
+                        '</div>' +
+                        '<div class="qty-controls">' +
+                            '<button type="button" class="qty-btn" onclick="changeQty(' + index + ', 1)">+</button>' +
+                            '<span>' + item.qty + '</span>' +
+                            '<button type="button" class="qty-btn" onclick="changeQty(' + index + ', -1)">-</button>' +
+                            '<button type="button" class="remove-item-btn" onclick="removeFromCart(' + index + ')"><i class="fas fa-trash"></i></button>' +
+                        '</div>' +
+                    '</div>';
+            });
+
+            cartItemsContainer.innerHTML = html;
+            cartTotalBox.textContent = 'الإجمالي: ' + total + ' EGP';
+        }
+
+        function changeQty(index, delta) {
+            if (!cart[index]) return;
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartBadge();
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderCart();
+        }
+
+        function attachCartButtonListeners() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(function(btn) {
+                if (btn.dataset.cartBound === 'true') return;
+                btn.dataset.cartBound = 'true';
+                btn.addEventListener('click', function() {
+                    const name = this.getAttribute('data-name');
+                    const price = parseFloat(this.getAttribute('data-price')) || 0;
+                    addToCart(name, price, this);
+                });
+            });
+
+            document.querySelectorAll('.card-plus-btn').forEach(function(btn) {
+                if (btn.dataset.plusBound === 'true') return;
+                btn.dataset.plusBound = 'true';
+                btn.addEventListener('click', function() {
+                    const name = this.getAttribute('data-name');
+                    const price = parseFloat(this.getAttribute('data-price')) || 0;
+                    setProductQty(name, price, 1, this);
+                });
+            });
+
+            document.querySelectorAll('.card-minus-btn').forEach(function(btn) {
+                if (btn.dataset.minusBound === 'true') return;
+                btn.dataset.minusBound = 'true';
+                btn.addEventListener('click', function() {
+                    const name = this.getAttribute('data-name');
+                    setProductQty(name, 0, -1, this);
+                });
+            });
+        }
+
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function(e) {
+                if (!checkoutForm.checkValidity()) {
+                    return;
+                }
+                e.preventDefault();
+
+                if (cart.length === 0) {
+                    alert('من فضلك أضف منتجاً واحداً على الأقل إلى السلة قبل إتمام الطلب.');
+                    return;
+                }
+
+                const custName = document.getElementById('custName').value.trim();
+                const custPhone = document.getElementById('custPhone').value.trim();
+                const custAddress = document.getElementById('custAddress').value.trim();
+
+                let itemsText = '';
+                let grandTotal = 0;
+
+                cart.forEach(function(item, i) {
+                    const sub = item.price * item.qty;
+                    grandTotal += sub;
+                    itemsText += (i + 1) + '. ' + item.name + ' | الكمية: ' + item.qty + ' | السعر: ' + sub + ' EGP\n';
+                });
+
+                const whatsappNumber = '201012805508';
+                const rawMessage =
+                    'طلب جديد من Zont Store\n' +
+                    '----------------------------\n' +
+                    'الاسم: ' + custName + '\n' +
+                    'رقم الهاتف: ' + custPhone + '\n' +
+                    'العنوان: ' + custAddress + '\n' +
+                    '----------------------------\n' +
+                    'المنتجات المطلوبة:\n' + itemsText +
+                    '----------------------------\n' +
+                    'الإجمالي: ' + grandTotal + ' EGP';
+
+                const whatsappUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(rawMessage);
+
+                cart = [];
+                updateCartBadge();
+                renderCart();
+                checkoutForm.reset();
+                if (cartModal) {
+                    cartModal.classList.remove('active');
+                }
+
+                window.location.href = whatsappUrl;
+            });
+        }
+
+        attachCartButtonListeners();
+        loadSavedProducts();
+        syncCardQtyCounters();
+    </SCRIPT>
+    </body>
+    </html>
