@@ -298,6 +298,7 @@
             border-radius: 8px;
             background: #0d0d0d;
         }
+
         .product-card .product-info {
             width: 100%;
             padding: 6px 2px 2px;
@@ -588,6 +589,7 @@
             align-items: center;
             gap: 8px;
         }
+
         .qty-btn {
             background: #242424;
             color: #fff;
@@ -846,6 +848,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="product-card" data-default-key="default-3">
                 <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-3')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
@@ -925,7 +928,6 @@
         </div>
     </section>
 
-    <!-- لوحة إضافة هودي جديد في آخر الصفحة بعد المنتجات -->
     <div class="admin-panel" id="admin">
         <h2><i class="fas fa-plus-circle"></i> إضافة هودي جديد (لإدارة المتجر)</h2>
         <form id="addProductForm">
@@ -949,7 +951,6 @@
         </form>
     </div>
 
-    <!-- نافذة السلة المنبثقة -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-box">
             <div class="cart-header">
@@ -980,7 +981,6 @@
         </div>
     </div>
 
-    <!-- نافذة تأكيد كلمة مرور المالك قبل حذف الهودي -->
     <div class="delete-auth-modal" id="deleteAuthModal">
         <div class="delete-auth-box">
             <h3><i class="fas fa-shield-alt"></i> تأكيد صلاحية المالك</h3>
@@ -998,13 +998,11 @@
         </div>
     </div>
 
-    <!-- رسالة تنبيه عند نجاح حذف الهودي -->
     <div id="deleteSuccessToast" class="delete-success-toast" role="status" aria-live="polite">
         <i class="fas fa-check-circle"></i>
         <span>تم حذف الهودي بنجاح</span>
     </div>
 
-    <!-- رسالة التنبيه المخصصة المنبثقة أعلى الزر ومشيرة له بالمثلث -->
     <div id="orderGuideCallout" class="order-guide-callout" role="status" aria-live="polite">
         <div class="callout-top">
             <i class="fas fa-shopping-bag"></i>
@@ -1013,7 +1011,6 @@
         <div>لتأكيد الطلب وملء البيانات اذهب إلى أيقونة السلة في الأعلى</div>
     </div>
 
-    <!-- الفوتر -->
     <footer>
         <div class="social-links">
             <a href="tel:+201012805508" title="اتصل بنا"><i class="fas fa-phone"></i></a>
@@ -1027,10 +1024,39 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyB2Woh6e_ryTBaAX5jBjLqDNsdcJ9KDb90",
+            authDomain: "zont-store.firebaseapp.com",
+            databaseURL: "https://zont-store-default-rtdb.firebaseio.com",
+            projectId: "zont-store",
+            storageBucket: "zont-store.firebasestorage.app",
+            messagingSenderId: "302265344529",
+            appId: "1:302265344529:web:0d1ba6a2a5260d674507b0"
+        };
+
         const OWNER_SECRET_PASSWORD = "ZONT2026";
         const DELETED_DEFAULTS_KEY = "zontDeletedDefaultProducts";
         const CUSTOM_PRODUCTS_KEY = "zontCustomProducts";
+        const DEFAULT_CARDS_HTML = Array.from(document.querySelectorAll('#productsGrid .product-card[data-default-key]')).map(function(card) {
+            return {
+                key: card.getAttribute('data-default-key'),
+                html: card.outerHTML
+            };
+        });
+
+        const hasFirebaseConfig = !String(FIREBASE_CONFIG.apiKey).includes("PUT_YOUR_");
+        let db = null;
+        let cloudProducts = [];
+        let cloudDeletedDefaults = [];
+
+        if (hasFirebaseConfig) {
+            const app = initializeApp(FIREBASE_CONFIG);
+            db = getDatabase(app);
+        }
 
         let pendingDeleteTargetBtn = null;
         let pendingDeleteProductId = null;
@@ -1053,7 +1079,7 @@
             }, 2600);
         }
 
-        function getDeletedDefaultKeys() {
+        function getLocalDeletedDefaultKeys() {
             try {
                 return JSON.parse(localStorage.getItem(DELETED_DEFAULTS_KEY) || '[]');
             } catch (err) {
@@ -1061,24 +1087,48 @@
             }
         }
 
-        function markDefaultKeyAsDeleted(defaultKey) {
-            if (!defaultKey) return;
-            const deletedKeys = getDeletedDefaultKeys();
-            if (!deletedKeys.includes(defaultKey)) {
-                deletedKeys.push(defaultKey);
-                localStorage.setItem(DELETED_DEFAULTS_KEY, JSON.stringify(deletedKeys));
+        function getLocalCustomProducts() {
+            try {
+                return JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
+            } catch (err) {
+                return [];
             }
         }
 
-        function applyDeletedDefaultProducts() {
-            const deletedKeys = getDeletedDefaultKeys();
-            if (!deletedKeys.length) return;
-            deletedKeys.forEach(function(key) {
-                const card = document.querySelector('.product-card[data-default-key="' + key + '"]');
-                if (card) {
-                    card.remove();
-                }
+        function persistDeletedDefaultKey(defaultKey) {
+            if (!defaultKey) return;
+            const localKeys = getLocalDeletedDefaultKeys();
+            if (!localKeys.includes(defaultKey)) {
+                localKeys.push(defaultKey);
+                localStorage.setItem(DELETED_DEFAULTS_KEY, JSON.stringify(localKeys));
+            }
+            if (db) {
+                const merged = Array.from(new Set([...cloudDeletedDefaults, ...localKeys]));
+                set(ref(db, 'zontStore/deletedDefaults'), merged);
+            }
+        }
+
+        function saveCustomProductCloud(newProduct) {
+            const localList = getLocalCustomProducts();
+            localList.push(newProduct);
+            try {
+                localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(localList));
+            } catch (err) {}
+            if (db) {
+                set(ref(db, 'zontStore/products/' + newProduct.id), newProduct);
+            }
+        }
+
+        function deleteCustomProductCloud(productId) {
+            const localList = getLocalCustomProducts().filter(function(item) {
+                return String(item.id) !== String(productId);
             });
+            try {
+                localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(localList));
+            } catch (err) {}
+            if (db) {
+                remove(ref(db, 'zontStore/products/' + productId));
+            }
         }
 
         function formatPriceWithEGP(rawPrice) {
@@ -1089,7 +1139,59 @@
             }
             return cleaned + ' EGP';
         }
-        function openDeleteAuthModal(btnEl, productId, defaultKey) {
+
+        function buildCustomProductHtml(product) {
+            const displayPrice = formatPriceWithEGP(product.price);
+            const numericPrice = typeof product.numericPrice === 'number'
+                ? product.numericPrice
+                : (parseFloat(String(displayPrice).replace(/[^\d.]/g, '')) || 0);
+
+            return (
+                '<div class="product-card custom-product-card">' +
+                    '<button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, \'' + product.id + '\', null)" title="حذف الهودي">' +
+                        '<i class="fas fa-trash"></i>' +
+                    '</button>' +
+                    '<img src="' + product.image + '" alt="' + product.name + '">' +
+                    '<div class="product-info">' +
+                        '<h3 class="product-title">' + product.name + '</h3>' +
+                        '<div class="product-price">' + displayPrice + '</div>' +
+                        '<div class="card-cart-controls">' +
+                            '<button type="button" class="card-qty-btn card-minus-btn" data-name="' + product.name + '" title="تنقيص واحد">-</button>' +
+                            '<span class="card-qty-count" data-name="' + product.name + '">0</span>' +
+                            '<button type="button" class="card-qty-btn card-plus-btn" data-name="' + product.name + '" data-price="' + numericPrice + '" title="تزويد واحد">+</button>' +
+                            '<button type="button" class="btn add-to-cart-btn" data-name="' + product.name + '" data-price="' + numericPrice + '">' +
+                                '<i class="fas fa-cart-plus"></i> أضف إلى السلة' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>'
+            );
+        }
+
+        function renderStoreProducts() {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            const deletedSet = new Set(db ? cloudDeletedDefaults : getLocalDeletedDefaultKeys());
+            const activeCustomProducts = db ? cloudProducts : getLocalCustomProducts();
+
+            let html = '';
+            DEFAULT_CARDS_HTML.forEach(function(item) {
+                if (!deletedSet.has(item.key)) {
+                    html += item.html;
+                }
+            });
+
+            activeCustomProducts.forEach(function(product) {
+                html += buildCustomProductHtml(product);
+            });
+
+            grid.innerHTML = html;
+            attachCartButtonListeners();
+            syncCardQtyCounters();
+        }
+
+        window.openDeleteAuthModal = function(btnEl, productId, defaultKey) {
             pendingDeleteTargetBtn = btnEl || null;
             pendingDeleteProductId = productId || null;
             pendingDeleteDefaultKey = defaultKey || null;
@@ -1106,7 +1208,7 @@
                     if (deleteOwnerPassInput) deleteOwnerPassInput.focus();
                 }, 50);
             }
-        }
+        };
 
         function closeDeleteAuthModal() {
             pendingDeleteTargetBtn = null;
@@ -1146,24 +1248,10 @@
                     return;
                 }
 
-                if (pendingDeleteProductId !== null) {
-                    const savedProducts = JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
-                    const updated = savedProducts.filter(function(item) {
-                        return item.id !== pendingDeleteProductId;
-                    });
-                    localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(updated));
-                }
-
-                if (pendingDeleteDefaultKey) {
-                    markDefaultKeyAsDeleted(pendingDeleteDefaultKey);
-                }
-
                 const cardEl = pendingDeleteTargetBtn ? pendingDeleteTargetBtn.closest('.product-card') : null;
+                const resolvedDefaultKey = pendingDeleteDefaultKey || (cardEl ? cardEl.getAttribute('data-default-key') : null);
+
                 if (cardEl) {
-                    const keyFromCard = cardEl.getAttribute('data-default-key');
-                    if (keyFromCard) {
-                        markDefaultKeyAsDeleted(keyFromCard);
-                    }
                     const titleEl = cardEl.querySelector('.product-title');
                     const prodName = titleEl ? titleEl.textContent.trim() : '';
                     if (prodName) {
@@ -1172,7 +1260,18 @@
                         });
                         updateCartBadge();
                     }
-                    cardEl.remove();
+                }
+
+                if (pendingDeleteProductId !== null) {
+                    deleteCustomProductCloud(pendingDeleteProductId);
+                }
+
+                if (resolvedDefaultKey) {
+                    persistDeletedDefaultKey(resolvedDefaultKey);
+                }
+
+                if (!db) {
+                    renderStoreProducts();
                 }
 
                 closeDeleteAuthModal();
@@ -1189,47 +1288,6 @@
             });
         }
 
-        function appendCustomProductCard(product) {
-            const grid = document.getElementById('productsGrid');
-            if (!grid) return;
-
-            const displayPrice = formatPriceWithEGP(product.price);
-            const numericPrice = typeof product.numericPrice === 'number'
-                ? product.numericPrice
-                : (parseFloat(String(displayPrice).replace(/[^\d.]/g, '')) || 0);
-
-            const card = document.createElement('div');
-            card.className = 'product-card custom-product-card';
-            card.innerHTML =
-                '<button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, ' + product.id + ', null)" title="حذف الهودي">' +
-                    '<i class="fas fa-trash"></i>' +
-                '</button>' +
-                '<img src="' + product.image + '" alt="' + product.name + '">' +
-                '<div class="product-info">' +
-                    '<h3 class="product-title">' + product.name + '</h3>' +
-                    '<div class="product-price">' + displayPrice + '</div>' +
-                    '<div class="card-cart-controls">' +
-                        '<button type="button" class="card-qty-btn card-minus-btn" data-name="' + product.name + '" title="تنقيص واحد">-</button>' +
-                        '<span class="card-qty-count" data-name="' + product.name + '">0</span>' +
-                        '<button type="button" class="card-qty-btn card-plus-btn" data-name="' + product.name + '" data-price="' + numericPrice + '" title="تزويد واحد">+</button>' +
-                        '<button type="button" class="btn add-to-cart-btn" data-name="' + product.name + '" data-price="' + numericPrice + '">' +
-                            '<i class="fas fa-cart-plus"></i> أضف إلى السلة' +
-                        '</button>' +
-                    '</div>' +
-                '</div>';
-
-            grid.appendChild(card);
-            attachCartButtonListeners();
-            syncCardQtyCounters();
-        }
-
-        function loadSavedProducts() {
-            const savedProducts = JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
-            savedProducts.forEach(function(product) {
-                appendCustomProductCard(product);
-            });
-        }
-
         const addProductForm = document.getElementById('addProductForm');
         if (addProductForm) {
             addProductForm.addEventListener('submit', function(e) {
@@ -1239,7 +1297,6 @@
                 e.preventDefault();
 
                 const enteredPass = document.getElementById('adminPass').value;
-
                 if (enteredPass !== OWNER_SECRET_PASSWORD) {
                     alert("❌ كلمة المرور غير صحيحة! لا تملك صلاحية إضافة منتجات.");
                     return;
@@ -1269,17 +1326,11 @@
                         image: imageDataUrl
                     };
 
-                    const savedProducts = JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
-                    savedProducts.push(newProduct);
-
-                    try {
-                        localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(savedProducts));
-                    } catch (err) {
-                        alert("⚠️ حجم الصورة كبير جداً على التخزين المحلي، سيظهر المنتج الآن لكن قد لا يُحفظ بعد التحديث.");
+                    saveCustomProductCloud(newProduct);
+                    if (!db) {
+                        renderStoreProducts();
                     }
-
-                    appendCustomProductCard(newProduct);
-                    alert("✅ تم إضافة الهودي بنجاح!");
+                    alert("✅ تم إضافة الهودي بنجاح وسيظهر فوراً لجميع الأجهزة!");
                     addProductForm.reset();
                 };
 
@@ -1487,7 +1538,7 @@
             cartTotalBox.textContent = 'الإجمالي: ' + total + ' EGP';
         }
 
-        function changeQty(index, delta) {
+        window.changeQty = function(index, delta) {
             if (!cart[index]) return;
             cart[index].qty += delta;
             if (cart[index].qty <= 0) {
@@ -1495,13 +1546,13 @@
             }
             updateCartBadge();
             renderCart();
-        }
+        };
 
-        function removeFromCart(index) {
+        window.removeFromCart = function(index) {
             cart.splice(index, 1);
             updateCartBadge();
             renderCart();
-        }
+        };
 
         function attachCartButtonListeners() {
             document.querySelectorAll('.add-to-cart-btn').forEach(function(btn) {
@@ -1585,10 +1636,21 @@
             });
         }
 
-        applyDeletedDefaultProducts();
-        attachCartButtonListeners();
-        loadSavedProducts();
-        syncCardQtyCounters();
+        if (db) {
+            onValue(ref(db, 'zontStore/products'), function(snapshot) {
+                const rawVal = snapshot.val();
+                cloudProducts = rawVal ? Object.values(rawVal) : [];
+                renderStoreProducts();
+            });
+
+            onValue(ref(db, 'zontStore/deletedDefaults'), function(snapshot) {
+                const rawVal = snapshot.val();
+                cloudDeletedDefaults = Array.isArray(rawVal) ? rawVal : (rawVal ? Object.values(rawVal) : []);
+                renderStoreProducts();
+            });
+        } else {
+            renderStoreProducts();
+        }
     </script>
 </body>
-</html
+</html>
