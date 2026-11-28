@@ -298,7 +298,6 @@
             border-radius: 8px;
             background: #0d0d0d;
         }
-
         .product-card .product-info {
             width: 100%;
             padding: 6px 2px 2px;
@@ -589,7 +588,6 @@
             align-items: center;
             gap: 8px;
         }
-
         .qty-btn {
             background: #242424;
             color: #fff;
@@ -681,6 +679,40 @@
             font-size: 14px;
             border-top: 1px solid #151515;
             padding-top: 20px;
+        }
+
+        /* رسالة تنبيه نجاح حذف الهودي */
+        .delete-success-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 99999;
+            background: linear-gradient(145deg, #1b1810, #111111);
+            color: var(--text-main);
+            border: 1.5px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 12px 20px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.85), 0 0 16px rgba(212, 175, 55, 0.35);
+            font-size: 14px;
+            font-weight: 800;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .delete-success-toast.show {
+            display: inline-flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .delete-success-toast i {
+            color: var(--accent-color);
+            font-size: 16px;
         }
 
         /* ضبط عرض التليفون: كل هودي في صف لوحده بالطول ومربع مريح */
@@ -778,7 +810,7 @@
         <div class="products-grid" id="productsGrid">
 
             <div class="product-card" data-default-key="default-1">
-                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-1')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
                 </button>
                 <img src="images/zont 2.jpg.jpeg" alt="راوند زيتي طباعه">
@@ -797,7 +829,7 @@
             </div>
 
             <div class="product-card" data-default-key="default-2">
-                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-2')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
                 </button>
                 <img src="images/zont 1.jpg.jpeg" alt="هودي برجاندي دابل سوسته">
@@ -814,9 +846,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="product-card" data-default-key="default-3">
-                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-3')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
                 </button>
                 <img src="images/zont 10.jpg.jpeg" alt="راوند برجاندي ساده">
@@ -835,7 +866,7 @@
             </div>
 
             <div class="product-card" data-default-key="default-4">
-                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-4')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
                 </button>
                 <img src="images/zont 3.jpg.jpeg" alt="راوند اسود طباعه">
@@ -854,7 +885,7 @@
             </div>
 
             <div class="product-card" data-default-key="default-5">
-                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-5')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
                 </button>
                 <img src="images/zont z.jpg.jpeg" alt="راوند زيتي ساده">
@@ -873,7 +904,7 @@
             </div>
 
             <div class="product-card" data-default-key="default-6">
-                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null)" title="حذف الهودي">
+                <button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, null, 'default-6')" title="حذف الهودي">
                     <i class="fas fa-trash"></i>
                 </button>
                 <img src="images/zont s.jpg.jpeg" alt="راوند اسود ساده">
@@ -893,6 +924,7 @@
 
         </div>
     </section>
+
     <!-- لوحة إضافة هودي جديد في آخر الصفحة بعد المنتجات -->
     <div class="admin-panel" id="admin">
         <h2><i class="fas fa-plus-circle"></i> إضافة هودي جديد (لإدارة المتجر)</h2>
@@ -966,6 +998,12 @@
         </div>
     </div>
 
+    <!-- رسالة تنبيه عند نجاح حذف الهودي -->
+    <div id="deleteSuccessToast" class="delete-success-toast" role="status" aria-live="polite">
+        <i class="fas fa-check-circle"></i>
+        <span>تم حذف الهودي بنجاح</span>
+    </div>
+
     <!-- رسالة التنبيه المخصصة المنبثقة أعلى الزر ومشيرة له بالمثلث -->
     <div id="orderGuideCallout" class="order-guide-callout" role="status" aria-live="polite">
         <div class="callout-top">
@@ -981,27 +1019,80 @@
             <a href="tel:+201012805508" title="اتصل بنا"><i class="fas fa-phone"></i></a>
             <a href="https://wa.me/201012805508" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
             <a href="https://www.instagram.com/zont_store1?vrfl=MWtxZnk0aTZ6Zzd3bw==" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/share/1EsJD3FG2t/" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.tiktok.com/@zont.store.1?_r=1&_t=ZS-9Bi7jy8qAJm" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.tiktok.com" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
         </div>
         <div class="copyright">
             جميع الحقوق محفوظة &copy; 2026 Zont Store
         </div>
     </footer>
+
     <script>
         const OWNER_SECRET_PASSWORD = "ZONT2026";
+        const DELETED_DEFAULTS_KEY = "zontDeletedDefaultProducts";
+        const CUSTOM_PRODUCTS_KEY = "zontCustomProducts";
+
         let pendingDeleteTargetBtn = null;
         let pendingDeleteProductId = null;
+        let pendingDeleteDefaultKey = null;
 
         const deleteAuthModal = document.getElementById('deleteAuthModal');
         const deleteOwnerPassInput = document.getElementById('deleteOwnerPass');
         const deleteAuthError = document.getElementById('deleteAuthError');
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const deleteSuccessToast = document.getElementById('deleteSuccessToast');
+        let deleteToastTimer = null;
 
-        function openDeleteAuthModal(btnEl, productId) {
+        function showDeleteSuccessToast() {
+            if (!deleteSuccessToast) return;
+            clearTimeout(deleteToastTimer);
+            deleteSuccessToast.classList.add('show');
+            deleteToastTimer = setTimeout(function() {
+                deleteSuccessToast.classList.remove('show');
+            }, 2600);
+        }
+
+        function getDeletedDefaultKeys() {
+            try {
+                return JSON.parse(localStorage.getItem(DELETED_DEFAULTS_KEY) || '[]');
+            } catch (err) {
+                return [];
+            }
+        }
+
+        function markDefaultKeyAsDeleted(defaultKey) {
+            if (!defaultKey) return;
+            const deletedKeys = getDeletedDefaultKeys();
+            if (!deletedKeys.includes(defaultKey)) {
+                deletedKeys.push(defaultKey);
+                localStorage.setItem(DELETED_DEFAULTS_KEY, JSON.stringify(deletedKeys));
+            }
+        }
+
+        function applyDeletedDefaultProducts() {
+            const deletedKeys = getDeletedDefaultKeys();
+            if (!deletedKeys.length) return;
+            deletedKeys.forEach(function(key) {
+                const card = document.querySelector('.product-card[data-default-key="' + key + '"]');
+                if (card) {
+                    card.remove();
+                }
+            });
+        }
+
+        function formatPriceWithEGP(rawPrice) {
+            const cleaned = String(rawPrice || '').trim();
+            if (!cleaned) return '0 EGP';
+            if (/egp/i.test(cleaned)) {
+                return cleaned.replace(/\s*egp\s*/i, ' EGP').trim();
+            }
+            return cleaned + ' EGP';
+        }
+        function openDeleteAuthModal(btnEl, productId, defaultKey) {
             pendingDeleteTargetBtn = btnEl || null;
             pendingDeleteProductId = productId || null;
+            pendingDeleteDefaultKey = defaultKey || null;
 
             if (deleteOwnerPassInput) {
                 deleteOwnerPassInput.value = '';
@@ -1020,6 +1111,7 @@
         function closeDeleteAuthModal() {
             pendingDeleteTargetBtn = null;
             pendingDeleteProductId = null;
+            pendingDeleteDefaultKey = null;
             if (deleteAuthModal) {
                 deleteAuthModal.classList.remove('active');
             }
@@ -1055,15 +1147,23 @@
                 }
 
                 if (pendingDeleteProductId !== null) {
-                    const savedProducts = JSON.parse(localStorage.getItem('zontCustomProducts') || '[]');
+                    const savedProducts = JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
                     const updated = savedProducts.filter(function(item) {
                         return item.id !== pendingDeleteProductId;
                     });
-                    localStorage.setItem('zontCustomProducts', JSON.stringify(updated));
+                    localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(updated));
+                }
+
+                if (pendingDeleteDefaultKey) {
+                    markDefaultKeyAsDeleted(pendingDeleteDefaultKey);
                 }
 
                 const cardEl = pendingDeleteTargetBtn ? pendingDeleteTargetBtn.closest('.product-card') : null;
                 if (cardEl) {
+                    const keyFromCard = cardEl.getAttribute('data-default-key');
+                    if (keyFromCard) {
+                        markDefaultKeyAsDeleted(keyFromCard);
+                    }
                     const titleEl = cardEl.querySelector('.product-title');
                     const prodName = titleEl ? titleEl.textContent.trim() : '';
                     if (prodName) {
@@ -1076,6 +1176,7 @@
                 }
 
                 closeDeleteAuthModal();
+                showDeleteSuccessToast();
             });
         }
 
@@ -1092,21 +1193,26 @@
             const grid = document.getElementById('productsGrid');
             if (!grid) return;
 
+            const displayPrice = formatPriceWithEGP(product.price);
+            const numericPrice = typeof product.numericPrice === 'number'
+                ? product.numericPrice
+                : (parseFloat(String(displayPrice).replace(/[^\d.]/g, '')) || 0);
+
             const card = document.createElement('div');
             card.className = 'product-card custom-product-card';
             card.innerHTML =
-                '<button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, ' + product.id + ')" title="حذف الهودي">' +
+                '<button type="button" class="card-delete-icon-btn" onclick="openDeleteAuthModal(this, ' + product.id + ', null)" title="حذف الهودي">' +
                     '<i class="fas fa-trash"></i>' +
                 '</button>' +
                 '<img src="' + product.image + '" alt="' + product.name + '">' +
                 '<div class="product-info">' +
                     '<h3 class="product-title">' + product.name + '</h3>' +
-                    '<div class="product-price">' + product.price + '</div>' +
+                    '<div class="product-price">' + displayPrice + '</div>' +
                     '<div class="card-cart-controls">' +
                         '<button type="button" class="card-qty-btn card-minus-btn" data-name="' + product.name + '" title="تنقيص واحد">-</button>' +
                         '<span class="card-qty-count" data-name="' + product.name + '">0</span>' +
-                        '<button type="button" class="card-qty-btn card-plus-btn" data-name="' + product.name + '" data-price="' + product.numericPrice + '" title="تزويد واحد">+</button>' +
-                        '<button type="button" class="btn add-to-cart-btn" data-name="' + product.name + '" data-price="' + product.numericPrice + '">' +
+                        '<button type="button" class="card-qty-btn card-plus-btn" data-name="' + product.name + '" data-price="' + numericPrice + '" title="تزويد واحد">+</button>' +
+                        '<button type="button" class="btn add-to-cart-btn" data-name="' + product.name + '" data-price="' + numericPrice + '">' +
                             '<i class="fas fa-cart-plus"></i> أضف إلى السلة' +
                         '</button>' +
                     '</div>' +
@@ -1118,7 +1224,7 @@
         }
 
         function loadSavedProducts() {
-            const savedProducts = JSON.parse(localStorage.getItem('zontCustomProducts') || '[]');
+            const savedProducts = JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
             savedProducts.forEach(function(product) {
                 appendCustomProductCard(product);
             });
@@ -1140,7 +1246,8 @@
                 }
 
                 const name = document.getElementById('pName').value.trim();
-                const price = document.getElementById('pPrice').value.trim();
+                const rawPrice = document.getElementById('pPrice').value.trim();
+                const formattedPrice = formatPriceWithEGP(rawPrice);
                 const imageInput = document.getElementById('pImage');
                 const file = imageInput.files[0];
 
@@ -1152,21 +1259,21 @@
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const imageDataUrl = event.target.result;
-                    const numericPrice = parseFloat(String(price).replace(/[^\d.]/g, '')) || 0;
+                    const numericPrice = parseFloat(String(formattedPrice).replace(/[^\d.]/g, '')) || 0;
 
                     const newProduct = {
                         id: Date.now(),
                         name: name,
-                        price: price,
+                        price: formattedPrice,
                         numericPrice: numericPrice,
                         image: imageDataUrl
                     };
 
-                    const savedProducts = JSON.parse(localStorage.getItem('zontCustomProducts') || '[]');
+                    const savedProducts = JSON.parse(localStorage.getItem(CUSTOM_PRODUCTS_KEY) || '[]');
                     savedProducts.push(newProduct);
 
                     try {
-                        localStorage.setItem('zontCustomProducts', JSON.stringify(savedProducts));
+                        localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(savedProducts));
                     } catch (err) {
                         alert("⚠️ حجم الصورة كبير جداً على التخزين المحلي، سيظهر المنتج الآن لكن قد لا يُحفظ بعد التحديث.");
                     }
@@ -1478,9 +1585,10 @@
             });
         }
 
+        applyDeletedDefaultProducts();
         attachCartButtonListeners();
         loadSavedProducts();
         syncCardQtyCounters();
     </script>
 </body>
-</html>
+</html
